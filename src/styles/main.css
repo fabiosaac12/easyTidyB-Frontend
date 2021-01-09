@@ -1,0 +1,128 @@
+/* TO SLIDE THE BODY DOWN SO THAT IT DOES NOT CRASH WITH THE NAVIGATION */
+body {
+    margin-top: 70px;
+    font-family: Helvetica;
+}
+
+* {
+    max-width: 100%;
+}
+
+.navbar-collapse {
+    margin-left: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar-collapse {
+        margin-left: 20px;
+    }
+}
+
+
+/* TO MAKE THE HEIGHT OF THE TABLE AND SET A Y-SCROLL */
+tbody {
+    display: block;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+thead,
+tbody tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+
+
+.text-center {
+    width: 100px;
+    word-wrap: break-word;
+}
+
+/* TO THE POP UP DIV */
+#PopUpDiv {
+    position: fixed;
+    width: auto;
+    max-width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 22px;
+    z-index: 900;
+    padding-top: 4px;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+/* TO MAKE THE GRID OF THE ADITIONAL FORMS */
+#aditionalFormsContainer,
+.gridContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.aditionalForm,
+.gridDiv {
+    display: block;
+    max-width: 200px;
+}
+
+.correctionsP {
+    color: red;
+    padding: 0;
+}
+
+.noGraphData {
+    margin: 10%;
+    height: 50%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    text-align: center;
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.verticalDivCenter {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+.imgr {
+    -webkit-animation: 3s rotate linear infinite;
+    animation: 3s rotate linear infinite;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+}
+
+td > input,
+select {
+    text-align: center;
+}

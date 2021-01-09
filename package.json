@@ -1,0 +1,63 @@
+{
+  "name": "easytidyb",
+  "version": "0.1.0",
+  "private": true,
+  "main": "public/electron.js",
+  "description": "An app for business management",
+  "author": "fabiosaac12@gmail.com",
+  "build": {
+    "appId": "com.easytidyb"
+  },
+  "homepage": "./",
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "bootstrap": "^4.5.2",
+    "cross-env": "^7.0.3",
+    "electron-is-dev": "^1.2.0",
+    "highcharts": "^8.2.2",
+    "highcharts-react-official": "^3.0.0",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.0",
+    "redux": "^4.0.5",
+    "sha256": "^0.2.0"
+  },
+  "scripts": {
+    "react-start": "react-scripts start",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-build": "react-scripts build",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder --ia32",
+    "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron . --no-sandbox\"",
+    "build": "npm run react-build && npm run electron-build",
+    "release": "npm run react-build && electron-builder --publish=always"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "electron": "^11.1.0",
+    "electron-builder": "^22.9.1",
+    "wait-on": "^5.2.0"
+  }
+}

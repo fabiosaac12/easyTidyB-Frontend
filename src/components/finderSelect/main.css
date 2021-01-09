@@ -1,0 +1,44 @@
+.selectContainer {
+    display: flex;
+}
+
+.selectInput {
+    width: 100%;
+}
+
+.selectUL {
+    width: 100%;
+    position: absolute;
+    background-color: #f2f2f2;
+    margin-top: calc(1.5em + .75rem + 2px);
+    z-index: 100;
+    padding: 0;
+    max-height: 300px;
+    overflow-y:auto;
+}
+
+.selectLI {
+    list-style: none;
+    font-size: 15px;
+    font-weight: 550;
+    padding: 5px 5px 5px 15px;
+    cursor: copy;
+}
+.selectLI:hover {
+    background-color: #adadad;
+}
+
+.disabledOption {
+    pointer-events: none;
+    background-color: #d8d8d8;
+    color: #858585;
+}
+
+.selectInfoP {
+    float: right;
+    margin: 0px 5px 0px 0px;
+    font-size: 15px;
+    color: #8b949e;
+    font-weight: 850;
+    pointer-events: none;
+}
