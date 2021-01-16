@@ -1,0 +1,61 @@
+
+#title {
+    padding-bottom: 5px;
+    text-align: right;
+    margin-right: 0px;
+    color: #404040;
+    font-weight: bold
+}
+
+.appDescription {
+    text-align: right;
+    margin: 9px 0px 9px 0px;
+    font-weight: bold
+}
+
+#howMadeTitle {
+    margin-top: 6px;
+    color: #404040
+}
+
+.aCard {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    padding: 9px
+}
+
+a {
+    text-decoration: none;
+    color: #0b3d06;
+    font-weight: bold
+}
+
+a:hover {
+    text-decoration: none
+}
+
+@media only screen and (max-width: 768px) {
+    .appDescription {
+	text-align: center;
+    }
+    #title {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	text-align: left;
+	height: 58px;
+	color: #fff;
+	background: #343a40!important;
+	font-weight: normal;
+	padding-top: 6px;
+	padding-left: 13px;
+    }
+    #howMadeTitle {
+	text-align: center;
+	font-size: 1.3rem
+    }
+    .aCard {
+	margin-top: 14px
+    }
+}

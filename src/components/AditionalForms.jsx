@@ -5,6 +5,7 @@ import data from '../helpers/data';
 import { monitorProductSelects } from '../helpers/saleFormActions';
 import { calculateAvailableProductsLength, collectionToArray, getInnerText } from '../helpers/functions'
 import FinderSelect from './finderSelect/FinderSelect';
+import translations from '../helpers/translations';
 
 const deleteForm = async (e, deleteAditionalForm) => {
     e.preventDefault();
@@ -22,8 +23,8 @@ const isThereSpaceForMoreForms = (section) => {
     return true
 }
 
-const generateNewInput = (section, input) => {
-    return <input type={input.type} onChange={section === 'Sales' ? (e) => calculateSale(e, e.target.parentNode.parentNode.parentNode) : null} name={input.name} className={`${input.className} ${input.name} heritable`} step={input.step} min={input.min} disabled={input.disabled} placeholder={input.placeholder}></input>
+const generateNewInput = (section, input, lang) => {
+    return <input type={input.type} onChange={section === 'Sales' ? (e) => calculateSale(e, e.target.parentNode.parentNode.parentNode, false, lang) : null} name={input.name} className={`${input.className} ${input.name} heritable`} step={input.step} min={input.min} disabled={input.disabled} placeholder={input.placeholder}></input>
 }
 
 const generateNewOptions = (options) => {
@@ -37,17 +38,17 @@ const generateNewOptions = (options) => {
     return newOptions
 }
 
-const generateItem = (select) => {
+const generateItem = (select, lang) => {
     const className = 'form-control'
     const name = select.getElementsByTagName('input')[1].getAttribute('name')
     const heritable = 'heritable'
-    const placeholder = 'selecciona un producto'
+    const placeholder = translations[lang].aditionalForm.productPlaceholder
     return {className, name, heritable, placeholder}
 }
 
-const generateNewSelect = async (select, oldOptions) => {
+const generateNewSelect = async (select, oldOptions, lang) => {
     const newOptions = generateNewOptions(oldOptions)
-    const item = generateItem(select)
+    const item = generateItem(select, lang)
     
     const handleSalesSelectOnChange = (e) => {
         monitorProductSelects()
@@ -75,7 +76,7 @@ const generateNewForm = (nextAditionalFormKey, formElements) => {
     </div>
 }
 
-export const createANewForm = async (section, mainForm, addANewForm, deleteAditionalForm, nextAditionalFormKey) => {
+export const createANewForm = async (section, mainForm, addANewForm, deleteAditionalForm, nextAditionalFormKey, lang) => {
     if (!isThereSpaceForMoreForms(section)) {
         return
     }
@@ -88,10 +89,10 @@ export const createANewForm = async (section, mainForm, addANewForm, deleteAditi
 
         let newInput
         if (input.tagName === "INPUT") {
-            newInput = generateNewInput(section, input)
+            newInput = generateNewInput(section, input, lang)
         } else if (input.tagName === "DIV") {
             const options = collectionToArray(input.getElementsByTagName('li'))
-            newInput = await generateNewSelect(input, options)
+            newInput = await generateNewSelect(input, options, lang)
             input = input.getElementsByTagName('input')[1]
         }
         const newElement = generateNewElement(i, input, label, newInput, deleteAditionalForm)

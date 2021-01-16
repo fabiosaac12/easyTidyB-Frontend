@@ -1,38 +1,39 @@
 const formVerification = {
+    //  name: [required?, maxLength?]
     Sales: {
-        clientID: ["Client ID", true, false],
-        productID: ["Product ID", true, false],
-        quantity: ["Quantity", true, 5],
-        obtained: ["Obtained", true, false],
-        profit: ["Profit", true, false],
-        discount: ["Discount", true, false],
-        type: ["Type", true, false],
-        date: ["Date", true, false],
+        clientID: [true, false],
+        productID: [true, false],
+        quantity: [true, 5],
+        obtained: [true, false],
+        profit: [true, false],
+        discount: [true, false],
+        type: [true, false],
+        date: [true, false],
     },
     Clients: {
-        name: ["Name", true, 25],
-        contact: ["Contact", false, 20],
-        place: ["Place", false, 25]
+        name: [true, 25],
+        contact: [false, 20],
+        place: [false, 25]
     },
     Products: {
-        orderID: ["Order ID", true, false],
-        name: ["Name", true, 20],
-        char1: ["1st Feature", false, 15],
-        char2: ["2nd Feature", false, 15],
-        initialStock: ["Initial Stock", true, 6],
-        retailPrice: ["Retail Price", true, false],
-        wholesalePrice: ["Wholesale Price", true, false],
-        purchasePrice: ["Purchase Price", true, false],
+        orderID: [true, false],
+        name: [true, 20],
+        char1: [false, 15],
+        char2: [false, 15],
+        initialStock: [true, 6],
+        retailPrice: [true, false],
+        wholesalePrice: [true, false],
+        purchasePrice: [true, false],
     },
     Orders: {
-        supplierID: ["Supplier ID", true, false],
-        expectedObtained: ["Expected Obtained", true, false],
-        date: ["Date", true, false],
+        supplierID: [true, false],
+        expectedObtained: [true, false],
+        date: [true, false],
     },
     Suppliers: {
-        name: ["Name", true, 25],
-        contact: ["Contact", false, 20],
-        place: ["Place", false, 20]
+        name: [true, 25],
+        contact: [false, 20],
+        place: [false, 20]
     },
 };
 

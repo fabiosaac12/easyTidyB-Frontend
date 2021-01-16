@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import columns from '../helpers/columns';
-import { aSectionES } from '../helpers/ES';
 import { collectionToArray, elementToJSON, request, getInnerText } from '../helpers/functions';
 import { alterInModifyMode as alterInModifyModeDispatch, hidePopUpDiv, addCharge, removeCharge } from '../store/workspaceActions';
 import data from '../helpers/data';
 import { resetAllModifyModes } from './Tr';
+import translations from '../helpers/translations';
 
 
-export const backToRegisterMode = (section, resetAll = false) => {
+export const backToRegisterMode = (section, resetAll = false, lang) => {
     const registerButton = document.getElementById('registerButton');
     registerButton.className = 'btn form-control btn-primary btn-block mt-3'
-    registerButton.innerHTML = 'Registrar'
-    document.getElementById('formTitle').innerHTML = `Agregar ${aSectionES[section]}`;
+    registerButton.innerHTML = translations[lang].words.register
+    document.getElementById('formTitle').innerHTML = translations[lang].form[`add${section}`];
 
     try {
         const addFormButton = document.getElementById('addFormButton')
@@ -24,12 +24,12 @@ export const backToRegisterMode = (section, resetAll = false) => {
     }
 }
 
-const goToModifyMode = async (section, updateMainTable) => {
+const goToModifyMode = async (section, updateMainTable, lang) => {
 
     const registerButton = document.getElementById('registerButton')
     registerButton.className = 'btn form-control btn-info btn-block mt-3'
-    registerButton.innerHTML = 'Modificar'
-    document.getElementById('formTitle').innerHTML = `Modificar ${aSectionES[section]}`
+    registerButton.innerHTML = translations[lang].words.modify
+    document.getElementById('formTitle').innerHTML = translations[lang].form[`modify${section}`]
 
     try {
         const addFormButton = document.getElementById('addFormButton')
@@ -58,10 +58,11 @@ const doConsultSelectsData = async (mainForm, consultSelectsData) => {
 
 const ModifyButton = ({ section, updateMainTable, consultSelectsData, resetAll, resetProductsOptions, alterInModifyMode }) => {
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
+    const lang = useSelector(state => state.language)
     
     const handleClick = async (e) => {
         if (document.getElementById('registerButton').innerHTML === 'Modificar') {
-            alert('Termina la modificacion actual.')
+            alert(translations[lang].alert.finishModification)
             return
         }
         
@@ -134,7 +135,7 @@ const ModifyButton = ({ section, updateMainTable, consultSelectsData, resetAll, 
         try {
             selectInfoP.innerHTML = data['Products'][productIndex].available
         } catch{}
-        await goToModifyMode(section, updateMainTable, resetProductsOptions)
+        await goToModifyMode(section, updateMainTable, lang)
         resetAllModifyModes(setModifyModeFunctions)
 	alterInModifyMode(0)
     }
@@ -144,13 +145,14 @@ const ModifyButton = ({ section, updateMainTable, consultSelectsData, resetAll, 
 
 const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMainTable, resetProductsOptions, userID, addCharge, removeCharge, alterInModifyMode }) => {
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
+    const lang = useSelector(state => state.language)
 
     const handleClick = async (e) => {
         if (document.getElementById('registerButton').innerHTML === 'Modificar') {
-            alert('Termina la modificacion actual.')
+            alert(translations[lang].alert.finishModification)
             return
         }
-        if (!window.confirm(`Estas seguro de eliminar ${aSectionES[section]}?`)) {
+        if (!window.confirm(translations[lang].alert[`sureToDelete${section}`])) {
             return
         }
         addCharge()
@@ -161,7 +163,7 @@ const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMain
             const headers = columns[dataType][section];
             const element = elementToJSON(tds, headers);
 
-            const elements = await request(`http://${process.env.REACT_APP_API_URL}/${section}/equalelements/${userID}`, {
+            const elements = await request(`${process.env.REACT_APP_API_URL}/${section}/equalelements/${userID}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(element),
@@ -174,7 +176,7 @@ const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMain
         } else {
             ids.push(tds[0].innerHTML);
         }
-        const url = `http://${process.env.REACT_APP_API_URL}/${section}`;
+        const url = `${process.env.REACT_APP_API_URL}/${section}`;
         const init = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },

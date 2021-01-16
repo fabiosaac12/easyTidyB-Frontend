@@ -1,10 +1,11 @@
 import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import translations from "../../helpers/translations";
+import {useSelector} from "react-redux";
 
-const SalesGraph = ({
-    data
-}) => {
+const SalesGraph = ({ data }) => {
+    const lang = useSelector(state => state.language)
     let currentDate = new Date();
     currentDate = [
         currentDate.getUTCFullYear(),
@@ -30,7 +31,7 @@ const SalesGraph = ({
             }
         },
         title: {
-            text: "Resumen de ventas",
+            text: translations[lang].graph.Sales.title,
 	    margin: 0,
             style: {
                 fontSize: "20px",
@@ -55,7 +56,7 @@ const SalesGraph = ({
             min: 0,
         },
         series: [{
-                name: "Obtenido",
+                name: translations[lang].graph.obtained,
                 data: data.map((e) => {
                     const dateSplitted = e.date.split("-");
                     const newDate = Date.UTC(
@@ -71,7 +72,7 @@ const SalesGraph = ({
                 }
             },
             {
-                name: "Ganancias",
+                name: translations[lang].graph.profit,
                 data: data.map((e) => {
                     const dateSplitted = e.date.split("-");
                     const newDate = Date.UTC(
@@ -87,7 +88,7 @@ const SalesGraph = ({
                 }
             },
             {
-                name: "Cantidad de ventas",
+                name: translations[lang].graph.salesQuantity,
                 data: data.map((e) => {
                     const dateSplitted = e.date.split("-");
                     const newDate = Date.UTC(

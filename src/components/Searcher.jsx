@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {removeAccents} from '../helpers/functions';
 import {setDoTableSearchFunction} from '../store/workspaceActions'
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import translations from '../helpers/translations';
 
 const Searcher = ({setDoTableSearchFunction}) => {
+    const mounted = useRef(false)
+    const lang = useSelector(state => state.language)
 
     const doSearch = (e) => {
         let whatSearch = removeAccents(e.target.value.toLowerCase());
@@ -32,14 +35,18 @@ const Searcher = ({setDoTableSearchFunction}) => {
         }
     }
 
-    setDoTableSearchFunction({doTableSearch: doSearch})
+    useEffect(() => {
+	mounted.current = true
+	if (mounted.courrent) setDoTableSearchFunction({doTableSearch: doSearch})
+	return () => mounted.current = false
+    })
 
     return <form className="w-75 mb-2 container">
         <div className="form-row">
             <div className="col-md-4"></div>
 			<div className="col-md-4"></div>
 			<div className="col-md-4">
-				<input className="form-control" id="searcher" placeholder="Buscar en la tabla..." onChange={doSearch} type="text"/>
+				<input className="form-control" id="searcher" placeholder={translations[lang].searcher.placeholder} onChange={doSearch} type="text"/>
 			</div>
         </div>
     </form>

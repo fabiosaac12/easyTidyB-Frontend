@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import FinderSelect from './finderSelect/FinderSelect';
 import AditionalForms, { createANewForm } from './AditionalForms';
 import formModels from '../helpers/forms';
@@ -8,21 +8,22 @@ import { addANewForm, deleteAditionalForm, addConsultSelectDataFunction, setRese
 import { request, verifyFields, calculateAvailableProductsLength } from '../helpers/functions'
 import { monitorProductSelects } from '../helpers/saleFormActions';
 import data from '../helpers/data';
+import translations from '../helpers/translations';
 
 
 const getSelectSection = (url) => {
     let selectSection;
     switch (url) {
-        case `http://${process.env.REACT_APP_API_URL}/salesProducts/select`:
+        case `${process.env.REACT_APP_API_URL}/salesProducts/select`:
             selectSection = "Products";
             break;
-        case `http://${process.env.REACT_APP_API_URL}/salesClients/select`:
+        case `${process.env.REACT_APP_API_URL}/salesClients/select`:
             selectSection = "Clients";
             break;
-        case `http://${process.env.REACT_APP_API_URL}/productsOrders/select`:
+        case `${process.env.REACT_APP_API_URL}/productsOrders/select`:
             selectSection = "Orders";
             break;
-        case `http://${process.env.REACT_APP_API_URL}/ordersSuppliers/select`:
+        case `${process.env.REACT_APP_API_URL}/ordersSuppliers/select`:
             selectSection = "Suppliers";
             break;
         default:
@@ -120,10 +121,10 @@ const Select = ({ item, section, addConsultSelectDataFunction, setResetProductsO
 }
 
 
-const generateNewInput = ({ name, heritable, type, onChange, className, step, min, disabled, placeholder, divClass }, label) => {
+const generateNewInput = ({ name, heritable, type, onChange, className, step, min, disabled, placeholder, divClass }, label, lang) => {
     return <div key={name} className={`${heritable}Div ${divClass} inputDiv`}>
         {label === "ID" ? null : <label htmlFor={name} className='m-0'>{label}</label>}
-        <input type={type} onChange={onChange} name={name} className={`${className} ${name} ${heritable}`} step={step} min={min} disabled={disabled} placeholder={placeholder}></input>
+	    <input type={type} onChange={(e) => onChange(e, lang)} name={name} className={`${className} ${name} ${heritable}`} step={step} min={min} disabled={disabled} placeholder={placeholder}></input>
         <p className={`correctionsP`}><small className={`${name}Fixes`}></small></p>
     </div>;
 }
@@ -132,18 +133,18 @@ const generateNewDinamicSelect = ({ userID, item, section, addConsultSelectDataF
     return <Select userID={userID} item={item} section={section} addConsultSelectDataFunction={addConsultSelectDataFunction} setResetProductsOptions={setResetProductsOptions} addCharge={addCharge} removeCharge={removeCharge} />
 }
 
-const generateNewNormalSelect = ({ name, onChange, className, heritable, step, min, disabled, choices }) => {
-    return <select key={name} name={name} onChange={onChange} className={`${className} ${name} ${heritable}`} step={step} min={min} disabled={disabled}>
+const generateNewNormalSelect = ({ name, onChange, className, heritable, step, min, disabled, choices }, lang) => {
+    return <select key={name} name={name} onChange={(e) => onChange(e, lang)} className={`${className} ${name} ${heritable}`} step={step} min={min} disabled={disabled}>
         {choices.options.map((option, i) => {
-            return <option key={i} value={option.value}>{option.label}</option>
+            return <option key={i} value={option.value}>{translations[lang].words[option.label]}</option>
         })}
     </select>
 }
 
-const generateNewSelect = (item, label, url, toDinamicSelect) => {
+const generateNewSelect = (item, label, url, toDinamicSelect, lang) => {
     return <div key={item.name} className={`${item.heritable}Div ${item.divClass} inputDiv`}>
         <label htmlFor={item.name} className='m-0'>{label}</label>
-        {url ? generateNewDinamicSelect(toDinamicSelect) : generateNewNormalSelect(item)}
+        {url ? generateNewDinamicSelect(toDinamicSelect) : generateNewNormalSelect(item, lang)}
         <p className={`correctionsP`}><small className={`${item.name}Fixes`}></small></p>
     </div>
 }
@@ -174,25 +175,26 @@ const consultSelectsOptions = async (consultSelectsData) => {
 
 const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey, addConsultSelectDataFunction, consultSelectsData, resetAll, aditionalForms, updateMainTable, setResetProductsOptions, resetProductsOptions, userID, addCharge, removeCharge }) => {
     const [formElements, setFormElements] = useState([])
+    const lang = useSelector(state => state.language)
     const fetching = useRef(false)
     useEffect(() => {
         const formModel = formModels[section];
         let formElements = [];
         for (let element in formModel) {
-            let label = element;
-            let item = formModel[element];
+            let label = translations[lang].form.labels[element];
+            let item = Object.assign(formModel[element], {placeholder: translations[lang].form.placeholders[element]});
             let newInput
             if (item.tag === 'input') {
-                newInput = generateNewInput(item, label)
+                newInput = generateNewInput(item, label, lang)
             } else {
                 const url = item.choices.url                          // TO SELECT JSX ELEMENT
-                newInput = generateNewSelect(item, label, url, { userID, item, section, addConsultSelectDataFunction, setResetProductsOptions, addCharge, removeCharge })
+                newInput = generateNewSelect(item, label, url, { userID, item, section, addConsultSelectDataFunction, setResetProductsOptions, addCharge, removeCharge}, lang)
             }
             formElements.push(newInput)
         }
         setFormElements(formElements)
 
-    }, [section, addConsultSelectDataFunction, setResetProductsOptions, userID, addCharge, removeCharge])
+    }, [section, addConsultSelectDataFunction, setResetProductsOptions, userID, addCharge, removeCharge, lang])
 
     setNeccesaryValues()
 
@@ -200,7 +202,7 @@ const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey,
         if (section === 'Sales') {
             await consultSelectsOptions(consultSelectsData);
         }
-        await createANewForm(section, document.getElementById('mainForm'), addANewForm, deleteAditionalForm, nextAditionalFormKey)
+        await createANewForm(section, document.getElementById('mainForm'), addANewForm, deleteAditionalForm, nextAditionalFormKey, lang)
         if (section === 'Sales') {
             monitorProductSelects()
         }
@@ -211,15 +213,15 @@ const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey,
     const addFormButton = <button id='addFormButton' onClick={handleNewFormClick} className='btn btn-primary float-right' disabled={addFormButtonDisabled}>+</button>
 
     const handleSubmitClick = async () => {
-        if (!verifyFields(section)) return
+        if (!verifyFields(section, lang)) return
         if (document.getElementById('registerButton').innerHTML === 'Modificar') {
-            if (!window.confirm(`Estas seguro de modificar la/el ${section.slice(0, -1).toLowerCase()}?`)) return
+            if (!window.confirm(translations[lang].alert[`sureToModify${section}`])) return
         }
         if (!fetching.current) {
             fetching.current = true
-            sendForms(section, resetAll, updateMainTable, userID, addCharge, removeCharge);
+            sendForms(section, resetAll, updateMainTable, userID, addCharge, removeCharge, lang);
             fetching.current = false
-        } else return alert('Su operacion esta en proceso.')
+        } else return alert(translations[lang].alert.operationInProcess)
         if (section === "Sales") {
             await resetProductsOptions()
         }
@@ -237,8 +239,8 @@ const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey,
                     {formElements}
                 </div>
             </form>
-            <button id='registerButton' className="btn form-control btn-primary btn-block mt-3" onClick={handleSubmitClick}>Registrar</button>
-            <button className="btn form-control btn-secondary btn-block mt-3" onClick={handleResetClick}>Resetear</button>
+            <button id='registerButton' className="btn form-control btn-primary btn-block mt-3" onClick={handleSubmitClick}>{translations[lang].words.register}</button>
+            <button className="btn form-control btn-secondary btn-block mt-3" onClick={handleResetClick}>{translations[lang].words.reset}</button>
         </div>
         <AditionalForms />
     </div>

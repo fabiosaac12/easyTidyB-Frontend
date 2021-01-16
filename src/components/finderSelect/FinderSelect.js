@@ -1,8 +1,10 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import { removeAccents, getInnerText } from '../../helpers/functions'
 import './main.css'
 
 const FinderSelect = ({ elements, item, onClick, onChange, info }) => {
+    const lang = useSelector(state => state.language)
     
     const handleInputOnSelect = async ({ target }) => {
         try {
@@ -32,7 +34,7 @@ const FinderSelect = ({ elements, item, onClick, onChange, info }) => {
         }
         
         try {
-            onChange({target})
+            onChange({target}, lang)
         } catch(e){}
     }
     

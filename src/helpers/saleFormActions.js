@@ -1,5 +1,6 @@
 import data from './data';
 import {roundToTwo, showFixes} from '../helpers/functions';
+import translations from './translations';
 
 const clearFields = (target, inputs, modifyMode) => {
     if (!modifyMode) {
@@ -24,8 +25,15 @@ const clearFields = (target, inputs, modifyMode) => {
     } else if (target === discount) {
         obtained.value = ''
     }
-    if (['', '0'].includes(quantity.value)) {
-        quantity.value = 1
+    if (quantity.value === '') {
+	if (target === quantity) {
+	    quantity.value = 0
+	} else {
+	    quantity.value = 1
+	}
+    }
+    if (quantity.value.startsWith('0') && quantity.value.length>1) {
+	quantity.value = quantity.value.substring(1)
     }
 }
 
@@ -38,7 +46,7 @@ const getSaleProduct = (products, productID) => {
     return saleProduct
 }
 
-const calculateSale = (e, form, modifyMode=false) => {
+const calculateSale = (e, form, modifyMode=false, lang) => {
     const inputs = {
         productID: form.getElementsByClassName(`productID${modifyMode ? 'TD' : ''}`)[0],
         quantity: form.getElementsByClassName(`quantity${modifyMode ? 'TD' : ''}`)[0],
@@ -64,7 +72,7 @@ const calculateSale = (e, form, modifyMode=false) => {
     if (values.quantity > available) {
         if (!modifyMode) {
             const p = e.target.parentNode.parentNode.parentNode.getElementsByClassName('quantityFixes')[0]
-            showFixes(p, [`Solo quedan ${available} unidades del producto`])
+            showFixes(p, [translations[lang].corrections.notEnough(available)])
         }
         inputs['quantity'].value = available
         values.quantity = available
@@ -72,7 +80,7 @@ const calculateSale = (e, form, modifyMode=false) => {
 
     // setting the product price depending on wether the sale is wholesale or retail
     let price
-    if (values.type === 'Mayor') {
+    if (values.type === 'Wholesale') {
         price = wholesalePrice
     } else {
         price = retailPrice

@@ -7,6 +7,7 @@ import { modifyFromTable } from '../helpers/formsActions'
 import { hidePopUpDiv, addSetModifyModeFunction, alterInModifyMode as alterInModifyModeDispatch, addCharge as addChargeDispatch, removeCharge as removeChargeDispatch } from '../store/workspaceActions';
 import modifyInTableInputs from '../helpers/modifyInTableGuide';
 import {useEffect} from 'react';
+import translations from '../helpers/translations';
 
 export const getNames = (modifyMode=false) => {
     let names = collectionToArray(document.getElementById("mainForm").getElementsByClassName("inputData")).map(e => {
@@ -42,18 +43,21 @@ export const resetAllModifyModes = async (setModifyModeFunctions) => {
 }
 
 
-const generateTDToModifyMode = (column, section, row, col) => {
-    const { tag, type, name, min, step, disabled, placeholder, className, choices, onChange } = modifyInTableInputs[section][column]
+const generateTDToModifyMode = (column, section, row, col, lang) => {
+    const { tag, type, name, min, step, disabled, className, choices, onChange } = modifyInTableInputs[section][column]
+    const placeholder = translations[lang].form.placeholders[name]
     const value = row[column]
     let td
     if (tag === 'input') {
-        td = <td onChange={(e) => onChange(e)} className={`text-center ${name==='id' ? 'd-none' : ''}`} key={col}><input type={type} placeholder={placeholder} defaultValue={value} name={name} min={min} step={step} className={`${className} ${name}TD`} disabled={disabled} /></td>
+        td = <td onChange={(e) => onChange(e, lang)} className={`text-center ${name==='id' ? 'd-none' : ''}`} key={col}><input type={type} placeholder={placeholder} defaultValue={value} name={name} min={min} step={step} className={`${className} ${name}TD`} disabled={disabled} /></td>
     } else if (tag === 'select') {
-        const choicesOptions = ['clientID', 'productID', 'orderID', 'supplierID'].includes(name) ? data[choices.options] : choices.options
+	const dinamicSelect = ['clientID', 'productID', 'orderID', 'supplierID'].includes(name) 	
+	const choicesOptions = dinamicSelect ? data[choices.options] : choices.options
+
 	const options = choicesOptions.map((opt, i) => {
-	    return <option value={opt.value} key={i}>{opt.label}</option>
+	    return <option value={opt.value} key={i}>{!dinamicSelect ? translations[lang].words[opt.label] : opt.label}</option>
 	})
-        td = <td onChange={(e) => onChange(e)} className='text-center' key={col}><select defaultValue={value} disabled={disabled} name={name} className={`${className} ${name}TD`}>{options}</select></td>
+        td = <td onChange={(e) => onChange(e, lang)} className='text-center' key={col}><select defaultValue={value} disabled={disabled} name={name} className={`${className} ${name}TD`}>{options}</select></td>
     }
     return td
 }
@@ -87,6 +91,7 @@ const generateButtonsToModifyMode = (setModifyMode, alterInModifyMode, section, 
 }
 
 const Tr = ({ columns, row, updateTable, section, i }) => {
+    const lang = useSelector(state => state.language)
     const mounted = useRef(false)
     const dispatch = useDispatch()
     const consultSelectsData = useSelector(state => state.consultSelectsData)
@@ -134,7 +139,7 @@ const Tr = ({ columns, row, updateTable, section, i }) => {
     if (!modifyMode && inModifyMode < 1) {
         for (let col in columns) {
             let column = columns[col][0]
-            tds.push(<td onDoubleClick={handleOnDoubleClickToNoModifyMode} className={`text-center ${column}TD dataTD ${columns[col][2] ? 'd-none' : ''}`} name={`${column}`} key={`${i}${col}`}>{row[column]}</td>)
+            tds.push(<td onDoubleClick={handleOnDoubleClickToNoModifyMode} className={`text-center ${column}TD dataTD ${columns[col][1] ? 'd-none' : ''}`} name={`${column}`} key={`${i}${col}`}>{row[column]}</td>)
         }
         const actionButtons = <ActionsButtons updateTable={updateTable} key='actions' />
         tds.push(actionButtons)
@@ -142,7 +147,7 @@ const Tr = ({ columns, row, updateTable, section, i }) => {
         for (let col in columns) {
             let column = columns[col][0]
             try {
-                const td = generateTDToModifyMode(column, section, row, col)
+                const td = generateTDToModifyMode(column, section, row, col, lang)
                 tds.push(td)
             } catch { }
         }

@@ -1,9 +1,10 @@
 import { backToRegisterMode } from '../components/ActionsButtons';
 import { collectionToArray, request, showFixes } from '../helpers/functions';
+import translations from './translations';
 
 
 const addElement = async (section, data, userID) => {
-    const url = `http://${process.env.REACT_APP_API_URL}/${section}/${userID}`;
+    const url = `${process.env.REACT_APP_API_URL}/${section}/${userID}`;
     const init = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -14,7 +15,7 @@ const addElement = async (section, data, userID) => {
 }
 
 const modifyElement = async (section, data) => {
-    const url = `http://${process.env.REACT_APP_API_URL}/${section}`;
+    const url = `${process.env.REACT_APP_API_URL}/${section}`;
     const init = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -43,7 +44,7 @@ export const modifyFromTable = async (section, updateTable, addCharge, removeCha
     removeCharge()
 }
 
-const sendForms = async (section, resetAll, updateMainTable, userID, addCharge, removeCharge) => {
+const sendForms = async (section, resetAll, updateMainTable, userID, addCharge, removeCharge, lang) => {
     const mainForm = document.getElementById('mainForm');
     const mainInputs = mainForm.getElementsByClassName('notHeritable')
     const forms = document.getElementsByClassName('formToSend')
@@ -83,14 +84,14 @@ const sendForms = async (section, resetAll, updateMainTable, userID, addCharge, 
         response = await addElement(section, formsValues, userID)
     }
     removeCharge()
-    const isCorrect = verifyResponse(response)
+    const isCorrect = verifyResponse(response, lang)
     if (isCorrect) {
-        modifyMode ? backToRegisterMode(section, resetAll) : resetAll(false)
+        modifyMode ? backToRegisterMode(section, resetAll, lang) : resetAll(false)
         updateMainTable();
     }
 }
 
-const verifyResponse = (response) => {
+const verifyResponse = (response, lang) => {
     const nameInputs = document.getElementsByClassName('name');
     switch (response.message) {
         case 'good':
@@ -100,7 +101,7 @@ const verifyResponse = (response) => {
                 const input = nameInputs[i];
                 if (input.value === response.name) {
                     const p = input.parentNode.getElementsByClassName('correctionsP')[0].getElementsByTagName('small')[0];
-                    showFixes(p, [`Ya hay un registro llamado ${response.name}`])
+                    showFixes(p, [translations[lang].corrections.nameUsed(response.name)])
                 }
             }
             return false

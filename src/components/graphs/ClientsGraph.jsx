@@ -1,8 +1,11 @@
 import React from 'react';
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import translations from '../../helpers/translations';
+import {useSelector} from 'react-redux';
 
 const ClientsGraph = ({ data }) => {
+    const lang = useSelector(state => state.language)
     const options = {
         chart: {
             type: "line",
@@ -12,7 +15,7 @@ const ClientsGraph = ({ data }) => {
 	    }
         },
         title: {
-            text: "Resumen de clientes",
+	    text: translations[lang].graph.Clients.title,
 	    margin: 0,
 	    style: {fontSize: "20px", fontWeight: '500', letterSpacing: '1px'}
         },
@@ -29,7 +32,7 @@ const ClientsGraph = ({ data }) => {
         },
         series: [
             {
-                name: "Comprado",
+                name: translations[lang].graph.bought,
                 data: data.map((e) => e.bought),
 		tooltip: {
 		    valueSuffix: ' $'
@@ -37,7 +40,7 @@ const ClientsGraph = ({ data }) => {
 		color: '#dbb82a'
             },
             {
-                name: "Ganancias",
+                name: translations[lang].graph.profit,
                 data: data.map((e) => e.profit),
 		tooltip: {
 		    valueSuffix: ' $'
@@ -45,7 +48,7 @@ const ClientsGraph = ({ data }) => {
 		color: '#168f14'
             },
             {
-                name: "Cantidad de compras",
+                name: translations[lang].graph.purchases,
                 data: data.map((e) => e.purchases),
 		color: '#2e2d29'
             },

@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Workspace from "./Workspace";
 import Dashboard from "./Dashboard";
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -23,10 +22,4 @@ const App = () => {
     )
 }
 
-const mapStateToProps = (state) => ({
-})
-
-const mapDispatchToProps = {
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App

@@ -2,7 +2,7 @@ import calculateSale, { monitorProductSelects } from "./saleFormActions";
 
 const forms = {
     Sales: {
-        'ID': {
+        'id': {
             tag: 'input',
             type: 'text',
             name: 'id',
@@ -10,137 +10,129 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'id',
             heritable: 'notHeritable'
         },
-        'Cliente': {
+        'clientID': {
             tag: 'select',
             name: 'clientID',
             className: 'form-control',
-            placeholder: 'selecciona un cliente',
-            divClass: 'col-md-12',
+            divClass: 'col-12',
             step: null,
             min: null,
             choices: {
-                url: `http://${process.env.REACT_APP_API_URL}/salesClients/select`
+                url: `${process.env.REACT_APP_API_URL}/salesClients/select`
             },
             disabled: false,
             heritable: 'notHeritable'
         },
-        'Producto': {
+        'productID': {
             tag: 'select',
             name: 'productID',
             className: 'form-control',
-            placeholder: 'selecciona un producto',
-            divClass: 'col-md-12',
+            divClass: 'col-12',
             step: null,
             min: null,
             choices: {
-                url: `http://${process.env.REACT_APP_API_URL}/salesProducts/select`
+                url: `${process.env.REACT_APP_API_URL}/salesProducts/select`
             },
             disabled: false,
             heritable: 'heritable',
-            onChange: (e) => {
+            onChange: (e, lang) => {
                 monitorProductSelects()
-                calculateSale({target: e.target.parentNode.getElementsByTagName('input')[1]}, e.target.parentNode.parentNode.parentNode.parentNode)
+                calculateSale({target: e.target.parentNode.getElementsByTagName('input')[1]}, e.target.parentNode.parentNode.parentNode.parentNode, false, lang)
             }
         },
-        'Cantidad': {
+        'quantity': {
             tag: 'input',
             type: 'number',
             name: 'quantity',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: 0,
             disabled: false,
-            placeholder: 'unidades',
             heritable: 'heritable',
-            onChange: (e) => calculateSale(e, e.target.parentNode.parentNode.parentNode)
+            onChange: (e, lang) => calculateSale(e, e.target.parentNode.parentNode.parentNode, false, lang)
         },
-        'Obtenido': {
+        'obtained': {
             tag: 'input',
             type: 'number',
             name: 'obtained',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: 'any',
             min: null,
             disabled: false,
-            placeholder: '$',
             heritable: 'heritable',
-            onChange: (e) => calculateSale(e, e.target.parentNode.parentNode.parentNode)
+            onChange: (e, lang) => calculateSale(e, e.target.parentNode.parentNode.parentNode, false, lang)
         },
-        'Ganancia': {
+        'profit': {
             tag: 'input',
             type: 'number',
             name: 'profit',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: 'any',
             min: null,
             disabled: true,
-            placeholder: '$',
             heritable: 'heritable'
         },
-        'Descuento': {
+        'discount': {
             tag: 'input',
             type: 'number',
             name: 'discount',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: 'any',
             min: null,
             disabled: false,
-            placeholder: '$',
             heritable: 'heritable',
-            onChange: (e) => calculateSale(e, e.target.parentNode.parentNode.parentNode)
+            onChange: (e, lang) => calculateSale(e, e.target.parentNode.parentNode.parentNode, false, lang)
         },
-        'Tipo': {
+        'type': {
             tag: 'select',
             name: 'type',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: null,
             choices: {
                 url: false,
                 options: [
                     {
-                        value: 'Detal',
-                        label: 'Al detal'
+                        value: 'Retail',
+                        label: 'Retail'
                     },
                     {
-                        value: 'Mayor',
-                        label: 'Al mayor'
+                        value: 'Wholesale',
+                        label: 'Wholesale'
                     }
                 ]
             },
             disabled: false,
             heritable: 'notHeritable',
-            onChange: (e) => {
+            onChange: (e, lang) => {
                 const forms = document.getElementsByClassName('formToSend')
                 for (let i = 0; i < forms.length; i++) {
                     const form = forms[i];
-                    calculateSale(e, form)    
+                    calculateSale(e, form, false, lang)    
                 }
             }
         },
-        'Fecha': {
+        'date': {
             tag: 'input',
             type: 'date',
             name: 'date',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'fecha de la venta',
             heritable: 'notHeritable'
         },
     },
     Clients: {
-        'ID': {
+        'id': {
             tag: 'input',
             type: 'text',
             name: 'id',
@@ -148,48 +140,44 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'id',
             heritable: 'notHeritable'
         },
-        'Nombre': {
+        'name': {
             tag: 'input',
             type: 'text',
             name: 'name',
             className: 'form-control inputData',
-            divClass: 'col-md-12',
+            divClass: 'col-12',
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'nombre del cliente',
             heritable: 'heritable'
         },
-        'Contacto': {
+        'contact': {
             tag: 'input',
             type: 'text',
             name: 'contact',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'contacto del cliente',
             heritable: 'heritable'
         },
-        'Lugar': {
+        'place': {
             tag: 'input',
             type: 'text',
             name: 'place',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'ubicacion del cliente',
             heritable: 'notHeritable'
         }
     },
     Products: {
-        'ID': {
+        'id': {
             tag: 'input',
             type: 'text',
             name: 'id',
@@ -197,110 +185,101 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'id',
             heritable: 'notHeritable'
         },
-        'Pedido': {
+        'orderID': {
             tag: 'select',
             name: 'orderID',
             className: 'form-control',
-            placeholder: 'selecciona un pedido',
-            divClass: 'col-md-12',
+            divClass: 'col-12',
             step: null,
             min: null,
             choices: {
-                url: `http://${process.env.REACT_APP_API_URL}/productsOrders/select`
+                url: `${process.env.REACT_APP_API_URL}/productsOrders/select`
             },
             disabled: false,
             heritable: 'notHeritable'
         },
-        'Nombre': {
+        'name': {
             tag: 'input',
             type: 'text',
             name: 'name',
             className: 'form-control inputData',
-            divClass: 'col-md-12',
+            divClass: 'col-12',
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'nombre del producto',
             heritable: 'notHeritable'
         },
-        'Primera caracteristica': {
+        'char1': {
             tag: 'input',
             type: 'text',
             name: 'char1',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'caracteristica 1',
             heritable: 'heritable'
         },
-        'Segunda caracteristica': {
+        'char2': {
             tag: 'input',
             type: 'text',
             name: 'char2',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'caracteristica 2',
             heritable: 'heritable'
         },
-        'Cantidad inicial': {
+        'initialStock': {
             tag: 'input',
             type: 'number',
             name: 'initialStock',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: 0,
             disabled: false,
-            placeholder: 'cantidad inicial',
             heritable: 'heritable'
         },
-        'Precio al detal': {
+	'retailPrice': {
             tag: 'input',
             type: 'number',
             name: 'retailPrice',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: 'any',
             min: 0,
             disabled: false,
-            placeholder: 'precio al detal',
             heritable: 'notHeritable'
         },
-        'Precio al mayor': {
+        'wholesalePrice': {
             tag: 'input',
             type: 'number',
             name: 'wholesalePrice',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: 'any',
             min: 0,
             disabled: false,
-            placeholder: 'precio al mayor',
             heritable: 'notHeritable'
         },
-        'Precio compra': {
+        'purchasePrice': {
             tag: 'input',
             type: 'number',
             name: 'purchasePrice',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: 'any',
             min: 0,
             disabled: false,
-            placeholder: 'precio compra',
             heritable: 'notHeritable'
         }
     },
     Orders: {
-        'ID': {
+        'id': {
             tag: 'input',
             type: 'text',
             name: 'id',
@@ -308,41 +287,38 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'id',
             heritable: 'notHeritable'
         },
-        'Proveedor': {
+        'supplierID': {
             tag: 'select',
             name: 'supplierID',
             className: 'form-control inputData',
-            placeholder: 'selecciona un proveedor',
-            divClass: 'col-md-12',
+            divClass: 'col-12',
             step: null,
             min: null,
             choices: {
-                url: `http://${process.env.REACT_APP_API_URL}/ordersSuppliers/select`
+                url: `${process.env.REACT_APP_API_URL}/ordersSuppliers/select`
             },
             disabled: false,
             heritable: 'notHeritable'
         },
-        'Obtenido esperado': {
+        'expectedObtained': {
             tag: 'input',
             type: 'number',
             name: 'expectedObtained',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: 'any',
             min: 0,
             disabled: false,
-            placeholder: 'obtenido esperado',
             heritable: 'notHeritable'
         },
-        'Fecha de realizacion': {
+        'orderDate': {
             tag: 'input',
             type: 'date',
             name: 'date',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: null,
             disabled: false,
@@ -350,7 +326,7 @@ const forms = {
         }
     },
     Suppliers: {
-        'ID': {
+        'id': {
             tag: 'input',
             type: 'text',
             name: 'id',
@@ -358,43 +334,39 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'id',
             heritable: 'notHeritable'
         },
-        'Nombre': {
+        'name': {
             tag: 'input',
             type: 'text',
             name: 'name',
             className: 'form-control inputData',
-            placeholder: 'nombre del proveedor',
-            divClass: 'col-md-12',
+            divClass: 'col-12',
             step: null,
             min: null,
             disabled: false,
             heritable: 'notHeritable'
         },
-        'Contacto': {
+        'contact': {
             tag: 'input',
             type: 'text',
             name: 'contact',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'contacto',
             heritable: 'notHeritable'
         },
-        'Lugar': {
+        'place': {
             tag: 'input',
             type: 'text',
             name: 'place',
             className: 'form-control inputData',
-            divClass: 'col-md-6',
+            divClass: 'col-6',
             step: null,
             min: null,
             disabled: false,
-            placeholder: 'ubicacion',
             heritable: 'notHeritable'
         }
     }

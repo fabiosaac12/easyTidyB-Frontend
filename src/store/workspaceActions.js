@@ -3,6 +3,11 @@ export const changeSection = (payload) => ({
     payload
 })
 
+export const changeLanguage = (payload) => ({
+    type: 'CHANGE_LANGUAGE',
+    payload
+})
+
 export const hidePopUpDiv = (payload) => {
     try {
         const bodyDiv = document.getElementById("bodyDiv")

@@ -3,6 +3,7 @@ import allColumns from '../helpers/columns';
 import Tr from './Tr'
 import { request } from '../helpers/functions'
 import { Thead } from './Table';
+import translations from '../helpers/translations';
 
 let creating = false
 
@@ -51,9 +52,9 @@ const mountTable = (elements, section, hidePopUpDiv, setPopUpDivContent,
 }
 
 // called from Table by td's actions
-export const createPopUpTable = async (e, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge) => {
+export const createPopUpTable = async (e, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge, lang) => {
     if (document.getElementById('registerButton').innerHTML === 'Modificar') {
-        alert('Termina la modificacion actual.')
+        alert(translations[lang].alert.finishModification)
         return
     }
     addCharge()
@@ -77,7 +78,7 @@ const updatePopUpTable = async (section, tds, groupedColumns, hidePopUpDiv, setP
         i++;
     }
 
-    let url = `http://${process.env.REACT_APP_API_URL}/${section}/equalelements/${userID}`;
+    let url = `${process.env.REACT_APP_API_URL}/${section}/equalelements/${userID}`;
     let init = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

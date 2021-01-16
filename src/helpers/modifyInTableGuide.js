@@ -42,8 +42,7 @@ const modifyInTableInputs = {
             step: null,
             min: 0,
             disabled: false,
-            placeholder: 'unidades',
-            onChange: (e) => calculateSale(e, e.target.parentNode.parentNode, true)
+            onChange: (e, lang) => calculateSale(e, e.target.parentNode.parentNode, true, lang)
         },
         obtained: {
             tag: 'input',
@@ -53,8 +52,7 @@ const modifyInTableInputs = {
             step: 'any',
             min: null,
             disabled: false,
-            placeholder: '$',
-            onChange: (e) => calculateSale(e, e.target.parentNode.parentNode, true)
+            onChange: (e, lang) => calculateSale(e, e.target.parentNode.parentNode, true, lang)
         },
         profit: {
             tag: 'input',
@@ -64,7 +62,6 @@ const modifyInTableInputs = {
             step: 'any',
             min: null,
             disabled: true,
-            placeholder: '$',
             onChange: () => null
         },
         discount: {
@@ -75,8 +72,7 @@ const modifyInTableInputs = {
             step: 'any',
             min: null,
             disabled: false,
-            placeholder: '$',
-            onChange: (e) => calculateSale(e, e.target.parentNode.parentNode, true)
+            onChange: (e, lang) => calculateSale(e, e.target.parentNode.parentNode, true, lang)
         },
         type: {
             tag: 'select',
@@ -87,25 +83,24 @@ const modifyInTableInputs = {
             choices: {
                 options: [
                     {
-                        value: 'Detal',
-                        label: 'Al detal'
+                        value: 'Retail',
+                        label: 'Retail'
                     },
                     {
-                        value: 'Mayor',
-                        label: 'Al mayor'
+                        value: 'Wholesale',
+                        label: 'Wholesale'
                     }
                 ]
             },
             disabled: false,
             heritable: 'notHeritable',
-            onChange: (e) => calculateSale(e, e.target.parentNode.parentNode, true)
+            onChange: (e, lang) => calculateSale(e, e.target.parentNode.parentNode, true, lang)
         },
         date: {
             tag: 'input',
             type: 'date',
             name: 'date',
             className: 'form-control inputData',
-            placeholder: 'fecha de la venta',
             onChange: () => null
         }
     },
@@ -136,7 +131,6 @@ const modifyInTableInputs = {
             name: 'name',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: 'nombre',
             onChange: () => null
         },
         char1: {
@@ -145,7 +139,6 @@ const modifyInTableInputs = {
             name: 'char1',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: '1era caracteristica',
             onChange: () => null
         },
         char2: {
@@ -154,7 +147,6 @@ const modifyInTableInputs = {
             name: 'char2',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: '2da caracteristica',
             onChange: () => null
         },
         initialStock: {
@@ -165,7 +157,6 @@ const modifyInTableInputs = {
             step: null,
             min: 0,
             disabled: false,
-            placeholder: 'unidades',
             onChange: () => null
         },
         retailPrice: {
@@ -176,7 +167,6 @@ const modifyInTableInputs = {
             step: 'any',
             min: null,
             disabled: false,
-            placeholder: '$',
             onChange: () => null
         },
         wholesalePrice: {
@@ -187,7 +177,6 @@ const modifyInTableInputs = {
             step: 'any',
             min: null,
             disabled: false,
-            placeholder: '$',
             onChange: () => null
         },
         purchasePrice: {
@@ -198,7 +187,6 @@ const modifyInTableInputs = {
             step: 'any',
             min: null,
             disabled: false,
-            placeholder: '$',
             onChange: () => null
         },
     },
@@ -216,7 +204,6 @@ const modifyInTableInputs = {
             name: 'name',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: 'nombre',
             onChange: () => null
         },
 	contact: {
@@ -225,16 +212,12 @@ const modifyInTableInputs = {
             name: 'contact',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: 'contacto',
             onChange: () => null
         },
-	place: {
-            tag: 'input',
-            type: 'text',
+	place: { tag: 'input', type: 'text',
             name: 'place',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: 'ubicacion',
             onChange: () => null
         }
     },
@@ -252,7 +235,6 @@ const modifyInTableInputs = {
             name: 'name',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: 'nombre',
             onChange: () => null
         },
 	contact: {
@@ -261,7 +243,6 @@ const modifyInTableInputs = {
             name: 'contact',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: 'contacto',
             onChange: () => null
         },
 	place: {
@@ -270,7 +251,6 @@ const modifyInTableInputs = {
             name: 'place',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: 'ubicacion',
             onChange: () => null
         }
     },
@@ -301,7 +281,6 @@ const modifyInTableInputs = {
             name: 'expectedObtained',
             className: 'form-control inputData',
             disabled: false,
-            placeholder: 'obtenido esperado',
             onChange: () => null
         },
 	date: {

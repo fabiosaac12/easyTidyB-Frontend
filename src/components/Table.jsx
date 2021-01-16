@@ -8,28 +8,30 @@ import { createPopUpTable } from './PopUpTable'
 import { addCharge, alterInModifyMode, hidePopUpDiv, removeCharge, setCleanMainTable, setPopUpDivContent, setUpdateMainTable } from '../store/workspaceActions'
 import { request} from '../helpers/functions';
 import { getNames } from './Tr.jsx'
+import translations from '../helpers/translations';
 
 export const Thead = ({ columns }) => {
+    const lang = useSelector(state => state.language)
     let ths = [];
     const inModifyMode = useSelector(state => state.inModifyMode)
 
     if (inModifyMode < 1) {
         for (let col in columns) {
-            let label = columns[col][1];
 	    let name = columns[col][0]
-            ths.push(<th className={`text-center ${columns[col][2] ? 'd-none' : ''}`} key={label+name}>{label}</th>);
+	    let label = translations[lang].columns[name]
+            ths.push(<th className={`text-center ${columns[col][1] ? 'd-none' : ''}`} key={label+name}>{label}</th>);
         }
     } else {
         const names = getNames()
         for (let col in columns) {
 	    const name = columns[col][0]
             if (names.includes(name)) {
-                let label = columns[col][1];
+		let label = translations[lang].columns[name]
                 ths.push(<th className={`text-center ${name==='id' ? 'd-none' : ''}`} key={label}>{label}</th>);
             }
         }
     }
-    ths.push(<th className='text-center' key='actions'>Acciones</th>);
+    ths.push(<th className='text-center' key='actions'>{translations[lang].words.actions}</th>);
 
     return <thead className='thead-dark'><tr>{ths}</tr></thead>
 }
@@ -40,6 +42,7 @@ const Tbody = ({columns, rows,
     updateTable, dataType,
     // to the tds action // to the tds action ////////// 
     section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge}) => {
+    const lang = useSelector(state => state.language)
     const [trs, setTrs] = useState([])
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
     const dispatch = useDispatch();
@@ -56,7 +59,7 @@ const Tbody = ({columns, rows,
 	const handleTDOnClick = (e) => {
 	    resetAllModifyModes(setModifyModeFunctions)
 	    dispatch(alterInModifyMode(0))
-	    createPopUpTable(e, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge)
+	    createPopUpTable(e, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge, lang)
 	}
 	let trs
 	if (["Products", "Sales"].includes(section)) {
@@ -65,7 +68,7 @@ const Tbody = ({columns, rows,
 		try {
 		    for (let col in columns) {
 			let column = columns[col][0]
-		        tds.push(<td className={`text-center dataTD toSearch ${columns[col][2] ? 'd-none' : ''}`} name={`${columns[col][0]}`} key={`${i}${col}`} onClick={section === 'Sales' || section === 'Products' ? handleTDOnClick : null}>{row[column]}</td>)
+		        tds.push(<td className={`text-center dataTD toSearch ${columns[col][1] ? 'd-none' : ''}`} name={`${columns[col][0]}`} key={`${i}${col}`} onClick={section === 'Sales' || section === 'Products' ? handleTDOnClick : null}>{column==='type' ? translations[lang].words[row[column]] : row[column]}</td>)
 		    }
                 } catch (e) {
                     console.log(e)
@@ -82,9 +85,9 @@ const Tbody = ({columns, rows,
 	    trs = rows.map((row, i) => <Tr columns={columns} key={i} i={i} row={row} updateTable={updateTable} section={section} />)
 	}
 	setTrs(trs)
-    }, [columns, rows, dataType, updateTable, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge, dispatch, setModifyModeFunctions])
+    }, [columns, rows, dataType, updateTable, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge, dispatch, setModifyModeFunctions, lang])
     
-    const tbodyContent = trs.length !== 0 ? trs : <tr><td className="text-center">{rows.message ? rows.message : `You haven't added ${section.toLowerCase()}. To do so, you need to submit the form above.`}</td></tr>
+    const tbodyContent = trs.length !== 0 ? trs : <tr><td className="text-center">{rows.message ? rows.message : translations[lang].table[`no${section}`]}</td></tr>
     
     return <tbody>
         {tbodyContent}
@@ -103,7 +106,7 @@ const Table = ({ section, setUpdateMainTable, userID, setCleanMainTable, addChar
     
     const updateTable = useCallback(async (section, dataType='grouped', onThis=false) => {
         addCharge()
-        let url = dataType === 'detailed' ? `http://${process.env.REACT_APP_API_URL}/${section}/${userID}` : `http://${process.env.REACT_APP_API_URL}/${section}/grouped/${userID}`;
+        let url = dataType === 'detailed' ? `${process.env.REACT_APP_API_URL}/${section}/${userID}` : `${process.env.REACT_APP_API_URL}/${section}/grouped/${userID}`;
         let rows = await request(url);
         removeCharge()
         if (!onThis) setRows(rows) 

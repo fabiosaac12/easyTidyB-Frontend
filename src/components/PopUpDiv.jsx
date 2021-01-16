@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux';
+import translations from '../helpers/translations';
 import {hidePopUpDiv, alterInModifyMode as alterInModifyModeDispatch} from '../store/workspaceActions';
 import { resetAllModifyModes } from './Tr'
 
 const PopUpDiv = ({hide, content, setHide, updateMainTable, section}) =>  {
     const dispatch = useDispatch()
+    const lang = useSelector(state => state.language)
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
     const alterInModifyMode = (num) => {
 	dispatch(alterInModifyModeDispatch(num))
@@ -20,7 +22,7 @@ const PopUpDiv = ({hide, content, setHide, updateMainTable, section}) =>  {
     try {
         const rows = content.props.rows[0]
         title = <div style={{padding: '15px'}}>
-            <h5 className='m-auto font-weight-bold' >{section==='Products' ? `Producto: ${rows['name']} ${rows['char1']} ${rows['char2']}` : `Venta a: ${rows['client']} el ${rows['date']}`}</h5>
+            <h5 className='m-auto font-weight-bold' >{section==='Products' ? translations[lang].popUpDiv.titleProducts(rows['name'], rows['char1'], rows['char2']) : translations[lang].popUpDiv.titleSales(rows['client'], rows['date'])}</h5>
         </div>
     } catch {}
     
