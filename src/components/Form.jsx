@@ -233,7 +233,7 @@ const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey,
 
     return <div className="row">
         <div className="card col-md-4 col-sm-6 p-2" style={{ minWidth: '270px' }}>
-            <h3 className="mt-2 mb-0"><small><span id='formTitle'>Agregar</span>{section === 'Suppliers' || section === 'Orders' ? null : addFormButton}</small></h3>
+	    <h3 className="mt-2 mb-0"><small><span id='formTitle'>{translations[lang].form[`add${section}`]}</span>{section === 'Suppliers' || section === 'Orders' ? null : addFormButton}</small></h3>
             <form id="mainForm" className='formToSend'>
                 <div className="form-row pt-2">
                     {formElements}
