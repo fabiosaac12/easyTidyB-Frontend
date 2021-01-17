@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { collectionToArray } from '../helpers/functions';
+import { collectionToArray, resetCorrectionPs, resetInputs } from '../helpers/functions';
 import ActionsButtons from './ActionsButtons'
 import data from '../helpers/data';
 import { modifyFromTable } from '../helpers/formsActions'
@@ -62,7 +62,7 @@ const generateTDToModifyMode = (column, section, row, col, lang) => {
     return td
 }
 
-const generateButtonsToModifyMode = (setModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, hidePopUpDiv, setModifyModeFunctions, updateMainTable) => {
+const generateButtonsToModifyMode = (setModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, hidePopUpDiv, setModifyModeFunctions, updateMainTable, resetProductsOptions) => {
     const handleModifyClick = async ({ target }) => {
         const form = target.parentNode.parentNode
         const result = await modifyFromTable(section, updateTable, addCharge, removeCharge, form)
@@ -77,6 +77,11 @@ const generateButtonsToModifyMode = (setModifyMode, alterInModifyMode, section, 
         } else {
 	    setModifyMode(false)
             alterInModifyMode(-1)
+	}
+	if (section==='Sales') {
+	    resetProductsOptions()
+	    resetInputs(false)
+	    resetCorrectionPs()
 	}
     }
 
@@ -98,6 +103,8 @@ const Tr = ({ columns, row, updateTable, section, i }) => {
     const consultSelectsData = useSelector(state => state.consultSelectsData)
     const inModifyMode = useSelector(state => state.inModifyMode)
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
+    const resetProductsOptions = useSelector(state => state.resetProductsOptions)
+    const aditionalForms = useSelector(state => state.aditionalForms)
     const updateMainTable = useSelector(state => state.updateMainTable)
     const alterInModifyMode = (num) => {
 	dispatch(alterInModifyModeDispatch(num))
@@ -119,6 +126,11 @@ const Tr = ({ columns, row, updateTable, section, i }) => {
     const removeCharge = () => dispatch(removeChargeDispatch())
 
     const handleOnDoubleClickToNoModifyMode = async (e) => {
+	if (aditionalForms.length > 0) {
+	    alert('Primero cierra los formularios adicionales o tarmina de insertar.')
+	    return
+	} 
+
         const trs = e.target.parentNode.parentNode.getElementsByTagName("tr")
 	for (let i = 0; i < consultSelectsData.length; i++) {
             const consult = consultSelectsData[i];
@@ -152,7 +164,7 @@ const Tr = ({ columns, row, updateTable, section, i }) => {
                 tds.push(td)
             } catch { }
         }
-        const {submitButton, cancelButton} = generateButtonsToModifyMode(verifyAndSetModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, () => dispatch(hidePopUpDiv({ hidePopUpDiv: true })), setModifyModeFunctions, updateMainTable)
+        const {submitButton, cancelButton} = generateButtonsToModifyMode(verifyAndSetModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, () => dispatch(hidePopUpDiv({ hidePopUpDiv: true })), setModifyModeFunctions, updateMainTable, resetProductsOptions)
         const actionButtons = <td key="actions" className="text-center">{submitButton}{cancelButton}</td>
         tds.push(actionButtons)
     } else {

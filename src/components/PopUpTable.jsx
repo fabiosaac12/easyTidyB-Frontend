@@ -52,10 +52,10 @@ const mountTable = (elements, section, hidePopUpDiv, setPopUpDivContent,
 }
 
 // called from Table by td's actions
-export const createPopUpTable = async (e, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge, lang) => {
-    if (document.getElementById('registerButton').innerHTML === 'Modificar') {
-        alert(translations[lang].alert.finishModification)
-        return
+export const createPopUpTable = async (e, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge, lang) => { 
+    if (document.getElementById('registerButton').innerHTML === 'Modificar') { 
+	alert(translations[lang].alert.finishModification) 
+	return 
     }
     addCharge()
     if (!creating) {

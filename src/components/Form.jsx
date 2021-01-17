@@ -65,7 +65,13 @@ const getInfo = (section) => {
 
 const Select = ({ item, section, addConsultSelectDataFunction, setResetProductsOptions, userID, addCharge, removeCharge }) => {
     const mounted = useRef(false)
-    const [optionsData, setOptionsData] = useState([])
+    const [optionsData, setOptionsDataState] = useState([])
+    const instantOptionsData = useRef([])
+
+    const setOptionsData = async (value) => {
+	setOptionsDataState(value)
+	instantOptionsData.current = value
+    }
 
     const url = item.choices.url;
     const selectSection = getSelectSection(url)
@@ -79,26 +85,29 @@ const Select = ({ item, section, addConsultSelectDataFunction, setResetProductsO
 	    newOptionsData = newData
 	}
 	if (mounted.current) {
-	    return setOptionsData(newOptionsData)
+	    await setOptionsData(newOptionsData)
+	    return 
 	}
     }, [selectSection])
 
     const consultOptionsData = useCallback(async (url, onThis = false) => {
-        if (optionsData.length === 0) {
+        if (instantOptionsData.current.length === 0) {
             addCharge()
             const data = await request(url + `/${userID}`);
             removeCharge()
-            if (!onThis) manageOptionsData(data, section)
+            if (!onThis) return manageOptionsData(data, section)
             else return data
         }
-    }, [optionsData, section, userID, manageOptionsData, addCharge, removeCharge])
+    }, [section, userID, manageOptionsData, addCharge, removeCharge])
 
     useEffect(() => {
 	mounted.current=true
         if (optionsData.length === 0) {
-            addConsultSelectDataFunction(() => consultOptionsData(url))
+	    addConsultSelectDataFunction(async () => { 
+		await consultOptionsData(url)
+	    })
         }
-        if (section === 'Sales') {
+        if (selectSection === 'Products') {
             setResetProductsOptions({
                 resetProductsOptions: async () => {
                     setOptionsData([])
@@ -106,7 +115,7 @@ const Select = ({ item, section, addConsultSelectDataFunction, setResetProductsO
             })
         }
         return () => mounted.current = false
-    }, [section, consultOptionsData, url, addConsultSelectDataFunction, optionsData, setResetProductsOptions])
+    }, [selectSection, consultOptionsData, url, addConsultSelectDataFunction, optionsData, setResetProductsOptions])
 
 
     const handleOnMouseDown = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import columns from '../helpers/columns';
-import { collectionToArray, elementToJSON, request, getInnerText } from '../helpers/functions';
+import { collectionToArray, elementToJSON, request, getInnerText, resetInputs, resetCorrectionPs } from '../helpers/functions';
 import { alterInModifyMode as alterInModifyModeDispatch, hidePopUpDiv, addCharge, removeCharge } from '../store/workspaceActions';
 import data from '../helpers/data';
 import { resetAllModifyModes } from './Tr';
@@ -56,7 +56,7 @@ const doConsultSelectsData = async (mainForm, consultSelectsData) => {
     }
 }
 
-const ModifyButton = ({ section, updateMainTable, consultSelectsData, resetAll, resetProductsOptions, alterInModifyMode }) => {
+const ModifyButton = ({ section, updateMainTable, consultSelectsData, resetAll, alterInModifyMode }) => {
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
     const lang = useSelector(state => state.language)
     
@@ -72,7 +72,7 @@ const ModifyButton = ({ section, updateMainTable, consultSelectsData, resetAll, 
         const mainFormInputs = collectionToArray(mainForm.getElementsByClassName('form-control')).concat(collectionToArray(mainForm.getElementsByClassName('selectContainer')))
         const elements = e.target.parentNode.parentNode.getElementsByClassName('dataTD');
 
-        if (section === 'Sales') await resetProductsOptions()
+	// if (section === 'Sales') await resetProductsOptions()
         
         await doConsultSelectsData(mainForm, consultSelectsData)
 
@@ -146,12 +146,17 @@ const ModifyButton = ({ section, updateMainTable, consultSelectsData, resetAll, 
 const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMainTable, resetProductsOptions, userID, addCharge, removeCharge, alterInModifyMode }) => {
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
     const lang = useSelector(state => state.language)
+    const aditionalForms = useSelector(state => state.aditionalForms)
 
     const handleClick = async (e) => {
         if (document.getElementById('registerButton').innerHTML === 'Modificar') {
             alert(translations[lang].alert.finishModification)
             return
         }
+	if (aditionalForms.length > 0) {
+	    alert('Primero cierra todos los formularios extras o termina de insertar los datos')
+	    return
+	}
         if (!window.confirm(translations[lang].alert[`sureToDelete${section}`])) {
             return
         }
@@ -192,7 +197,11 @@ const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMain
                 updateMainTable()
             };
         });
-        if (section==='Sales') resetProductsOptions()
+	if (section==='Sales') {
+	    resetProductsOptions()
+	    resetInputs(false)
+	    resetCorrectionPs()
+	}
         removeCharge()
     };
     return <button className="btn btn-danger ml-1" onClick={handleClick}></button>;
