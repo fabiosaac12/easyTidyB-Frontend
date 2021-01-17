@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {simpleAddElement} from '../helpers/formsActions';
 import {verifyFields} from '../helpers/functions';
 import translations from '../helpers/translations';
-import {hidePopUpDiv, setPopUpDivContent} from '../store/workspaceActions';
+import {addCharge, hidePopUpDiv, removeCharge, setPopUpDivContent} from '../store/workspaceActions';
 
 
 const getData = (target) => {
@@ -30,7 +30,9 @@ const PopUpAddClient = ({ input, lang, newClientName, setOptionsData }) => {
 	const isCorrect = verifyFields('Clients', lang)
 	if (!isCorrect) return
 	const data = getData(target)
+	dispatch(addCharge())
 	const result = await simpleAddElement('Clients', data, userID, lang) 
+	dispatch(removeCharge())
 
 	if (result.isCorrect) {
 	    input.value = data[0].name

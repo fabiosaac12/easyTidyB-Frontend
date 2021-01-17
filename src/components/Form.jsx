@@ -219,7 +219,7 @@ const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey,
     }
 
     const availableProductsLength = calculateAvailableProductsLength(data['Products']);
-    const addFormButtonDisabled = (aditionalForms.length >= 10 || aditionalForms.length >= availableProductsLength - 1) && (section === 'Sales')
+    const addFormButtonDisabled = (aditionalForms.length >= 10) || ((aditionalForms.length >= availableProductsLength - 1) && (section === 'Sales'))
     const addFormButton = <button id='addFormButton' onClick={handleNewFormClick} className='btn btn-primary float-right' disabled={addFormButtonDisabled}>+</button>
 
     const handleSubmitClick = async () => {

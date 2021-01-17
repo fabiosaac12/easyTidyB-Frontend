@@ -129,11 +129,11 @@ const Dashboard = ({ changeSection, userID, addCharge, removeCharge }) => {
     if (userID) {
         return (
             <div className="graphContainer">
-                <div className="row">
+                <div className="row m-0">
                     <div className="col-md-12">{salesGraph}</div>
                 </div>
                 <ChargingImage />
-                <div className="row">
+                <div className="row m-0">
                     <div className="col-md-8">{clientsGraph}</div>
                     <div className="col-md-4">{ordersGraph}</div>
                 </div>

@@ -19,6 +19,12 @@ body {
     text-align: left
 }
 
+.aCard {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    padding: 9px
+}
+
 @media only screen and (max-width: 768px) {
     .navbar-collapse {
         margin-left: 20px;
@@ -95,6 +101,16 @@ tbody tr {
 .gridDiv {
     display: block;
     max-width: 200px;
+    background: #f6f8f9;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+}
+
+@media only screen and (max-width: 525px) {
+    .aditionalForm, .gridDiv {
+	max-width: none;
+	width: 100%
+    }
 }
 
 .correctionsP {

@@ -78,7 +78,7 @@ const OrdersGraph = ({ data }) => {
 
     return <div>
 	<HighchartsReact highcharts={Highcharts} options={options} />
-	<select className="form-control" onChange={handleClick}>
+	<select className="form-control" style={{marginBottom: '1rem'}} onChange={handleClick}>
             {selectOptions}
         </select>
     </div>
