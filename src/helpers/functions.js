@@ -60,6 +60,22 @@ export const verifyFields = (section, lang) => {
     return isCorrect
 };
 
+export const verifyOneField = (lang, section, input, p, name, value) => {
+    const ver = formVerification[section][name]
+    const corrections = []
+    let isCorrect = true
+    if (ver[0] && (value==='')) {
+	corrections.push(translations[lang].corrections.isRequired)
+    } if(ver[1] && value.length>ver[1]) {
+        corrections.push(translations[lang].corrections.maxLength(ver[1]))
+    }
+    if (corrections.length > 0) {
+	showFixes(p, corrections);
+	isCorrect = false
+    }
+    return isCorrect
+}
+
 export const verifyUsername = (username, lang) => {
     let fixes = []
     if (username.length < 7 || username.length > 15) {

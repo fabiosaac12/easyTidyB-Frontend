@@ -43,7 +43,7 @@ const mountTable = (elements, section, hidePopUpDiv, setPopUpDivContent,
     tds, groupedColumns, userID) => {
     const columns = allColumns['equal'][section];
     setPopUpDivContent({
-        popUpDivContent: <Table columns={columns} rows={elements}
+        popUpDivContent: <Table what='Table' columns={columns} rows={elements}
             // to update table // to update table // to update table // to update table // to update table // to update table /////////////
             section={section} tds={tds} groupedColumns={groupedColumns} hidePopUpDiv={hidePopUpDiv} setPopUpDivContent={setPopUpDivContent} userID={userID} />
     });

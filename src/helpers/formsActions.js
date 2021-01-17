@@ -1,4 +1,5 @@
 import { backToRegisterMode } from '../components/ActionsButtons';
+import {verifySoldProducts} from '../components/Form';
 import { collectionToArray, request, showFixes } from '../helpers/functions';
 import translations from './translations';
 
@@ -34,6 +35,10 @@ export const modifyFromTable = async (section, updateTable, addCharge, removeCha
         const inputValue = input.value
         formValues[inputName] = inputValue
     }
+    if (section==='Products') {
+	const verification = await verifySoldProducts(formValues.id, formValues.initialStock)
+	if (!verification) return false
+    }
     addCharge()
     await modifyElement(section, formValues)
     if (["Sales", "Products"].includes(section)) {
@@ -42,6 +47,7 @@ export const modifyFromTable = async (section, updateTable, addCharge, removeCha
 	await updateTable(section, 'detailed')
     }
     removeCharge()
+    return true
 }
 
 const sendForms = async (section, resetAll, updateMainTable, userID, addCharge, removeCharge, lang) => {
@@ -89,6 +95,12 @@ const sendForms = async (section, resetAll, updateMainTable, userID, addCharge, 
         modifyMode ? backToRegisterMode(section, resetAll, lang) : resetAll(false)
         updateMainTable();
     }
+}
+
+export const simpleAddElement = async (section, data, userID, lang) => {
+    const response = await addElement(section, data, userID)
+    const isCorrect = verifyResponse(response, lang)
+    return {response, isCorrect}
 }
 
 const verifyResponse = (response, lang) => {

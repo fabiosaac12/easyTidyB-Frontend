@@ -116,9 +116,9 @@ const Select = ({ item, section, addConsultSelectDataFunction, setResetProductsO
     }
 
     let info = getInfo(selectSection)
-    
-    return <FinderSelect item={item} info={info} elements={optionsData} onClick={handleOnMouseDown} onChange={item.onChange} />
-}
+
+
+    return <FinderSelect selectSection={selectSection} item={item} info={info} elements={optionsData} onClick={handleOnMouseDown} onChange={item.onChange} setOptionsData={setOptionsData} /> } 
 
 
 const generateNewInput = ({ name, heritable, type, onChange, className, step, min, disabled, placeholder, divClass }, label, lang) => {
@@ -173,6 +173,16 @@ const consultSelectsOptions = async (consultSelectsData) => {
     }
 }
 
+export const verifySoldProducts = async (id, quantity) => {
+    const url = `${process.env.REACT_APP_API_URL}/info/Products/${id}`
+    const info = await request(url)
+    if (parseInt(quantity) < parseInt(info[0].sold)) {
+	alert(`No puedes introducir una cantidad inicial menor a la cantidad de unidades de este producto que ya has vendido. Has vendido ${info[0].sold} unidades.`)
+	return false
+    }
+    return true
+}
+
 const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey, addConsultSelectDataFunction, consultSelectsData, resetAll, aditionalForms, updateMainTable, setResetProductsOptions, resetProductsOptions, userID, addCharge, removeCharge }) => {
     const [formElements, setFormElements] = useState([])
     const lang = useSelector(state => state.language)
@@ -214,11 +224,21 @@ const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey,
 
     const handleSubmitClick = async () => {
         if (!verifyFields(section, lang)) return
-        if (document.getElementById('registerButton').innerHTML === 'Modificar') {
+	const modifyMode = document.getElementById('registerButton').innerHTML === translations[lang].words.modify
+        if (modifyMode) {
             if (!window.confirm(translations[lang].alert[`sureToModify${section}`])) return
         }
         if (!fetching.current) {
-            fetching.current = true
+	    fetching.current = true
+	    if (section === 'Products' && modifyMode) {
+		const productID = document.getElementsByClassName('id')[0].value
+		const initialQuantity = document.getElementsByClassName('initialStock')[0].value
+		const isCorrect = await verifySoldProducts(productID, initialQuantity)
+		if (!isCorrect) {
+		    fetching.current = false
+		    return
+		}
+	    }
             sendForms(section, resetAll, updateMainTable, userID, addCharge, removeCharge, lang);
             fetching.current = false
         } else return alert(translations[lang].alert.operationInProcess)

@@ -1,10 +1,13 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { removeAccents, getInnerText } from '../../helpers/functions'
+import {hidePopUpDiv, setPopUpDivContent} from '../../store/workspaceActions'
+import PopUpAddClient from '../PopUpAddClient'
 import './main.css'
 
-const FinderSelect = ({ elements, item, onClick, onChange, info }) => {
+const FinderSelect = ({ elements, item, onClick, onChange, info, selectSection, setOptionsData }) => {
     const lang = useSelector(state => state.language)
+    const dispatch = useDispatch()
     
     const handleInputOnSelect = async ({ target }) => {
         try {
@@ -28,13 +31,20 @@ const FinderSelect = ({ elements, item, onClick, onChange, info }) => {
             }
         }
         if (!match) {
-            target.value = ''
-            target.parentNode.getElementsByTagName('input')[1].value = ''
+	    if (selectSection === 'Clients') {
+		const newClientName = target.value
+		if (newClientName!=='') {
+		    dispatch(setPopUpDivContent({popUpDivContent: <PopUpAddClient what='addClient' input={target} lang={lang} newClientName={newClientName} setOptionsData={setOptionsData} />}))
+		    dispatch(hidePopUpDiv({ hidePopUpDiv: false }))
+		}
+	    }
+	    target.value = ''
+	    target.parentNode.getElementsByTagName('input')[1].value = ''
             doSearch({target})
         }
         
         try {
-            onChange({target}, lang)
+            if (selectSection!=='Clients') onChange({target}, lang)
         } catch(e){}
     }
     

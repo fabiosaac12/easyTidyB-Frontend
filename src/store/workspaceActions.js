@@ -11,13 +11,21 @@ export const changeLanguage = (payload) => ({
 export const hidePopUpDiv = (payload) => {
     try {
         const bodyDiv = document.getElementById("bodyDiv")
-        payload.hidePopUpDiv ? bodyDiv.style.filter = "none" : bodyDiv.style.filter = "blur(2px)"
+	if (payload.hidePopUpDiv) {
+	    bodyDiv.style.filter = 'none'
+	    bodyDiv.style.pointerEvents = 'auto'
+	} else {
+	    bodyDiv.style.filter = 'blur(2px)'
+	    bodyDiv.style.pointerEvents = 'none'
+	}
     } catch{}
     return {
         type: 'HIDE_POPUPDIV',
         payload
     }
 }
+
+// pointer-events: none;
 
 export const setPopUpDivContent = (payload) => ({
     type: 'SET_POPUPDIV_CONTENT',

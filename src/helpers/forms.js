@@ -10,7 +10,8 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+	    heritable: 'notHeritable',
+	    onChange: () => null
         },
         'clientID': {
             tag: 'select',
@@ -23,7 +24,9 @@ const forms = {
                 url: `${process.env.REACT_APP_API_URL}/salesClients/select`
             },
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'productID': {
             tag: 'select',
@@ -75,7 +78,9 @@ const forms = {
             step: 'any',
             min: null,
             disabled: true,
-            heritable: 'heritable'
+            heritable: 'heritable',
+	    onChange: () => null
+
         },
         'discount': {
             tag: 'input',
@@ -128,7 +133,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
     },
     Clients: {
@@ -140,7 +147,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'name': {
             tag: 'input',
@@ -151,7 +160,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'heritable'
+            heritable: 'heritable',
+	    onChange: () => null
+
         },
         'contact': {
             tag: 'input',
@@ -162,7 +173,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'heritable'
+            heritable: 'heritable',
+	    onChange: () => null
+
         },
         'place': {
             tag: 'input',
@@ -173,7 +186,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         }
     },
     Products: {
@@ -185,7 +200,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'orderID': {
             tag: 'select',
@@ -198,7 +215,9 @@ const forms = {
                 url: `${process.env.REACT_APP_API_URL}/productsOrders/select`
             },
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'name': {
             tag: 'input',
@@ -209,7 +228,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'char1': {
             tag: 'input',
@@ -220,7 +241,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'heritable'
+            heritable: 'heritable',
+	    onChange: () => null
+
         },
         'char2': {
             tag: 'input',
@@ -231,7 +254,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'heritable'
+            heritable: 'heritable',
+	    onChange: () => null
+
         },
         'initialStock': {
             tag: 'input',
@@ -242,7 +267,9 @@ const forms = {
             step: null,
             min: 0,
             disabled: false,
-            heritable: 'heritable'
+            heritable: 'heritable',
+	    onChange: () => null
+
         },
 	'retailPrice': {
             tag: 'input',
@@ -253,7 +280,9 @@ const forms = {
             step: 'any',
             min: 0,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'wholesalePrice': {
             tag: 'input',
@@ -264,7 +293,9 @@ const forms = {
             step: 'any',
             min: 0,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'purchasePrice': {
             tag: 'input',
@@ -275,7 +306,9 @@ const forms = {
             step: 'any',
             min: 0,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         }
     },
     Orders: {
@@ -287,7 +320,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'supplierID': {
             tag: 'select',
@@ -300,7 +335,9 @@ const forms = {
                 url: `${process.env.REACT_APP_API_URL}/ordersSuppliers/select`
             },
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'expectedObtained': {
             tag: 'input',
@@ -311,7 +348,9 @@ const forms = {
             step: 'any',
             min: 0,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'orderDate': {
             tag: 'input',
@@ -322,7 +361,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         }
     },
     Suppliers: {
@@ -334,7 +375,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'name': {
             tag: 'input',
@@ -345,7 +388,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'contact': {
             tag: 'input',
@@ -356,7 +401,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         },
         'place': {
             tag: 'input',
@@ -367,7 +414,9 @@ const forms = {
             step: null,
             min: null,
             disabled: false,
-            heritable: 'notHeritable'
+            heritable: 'notHeritable',
+	    onChange: () => null
+
         }
     }
 }

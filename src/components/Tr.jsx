@@ -65,7 +65,8 @@ const generateTDToModifyMode = (column, section, row, col, lang) => {
 const generateButtonsToModifyMode = (setModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, hidePopUpDiv, setModifyModeFunctions, updateMainTable) => {
     const handleModifyClick = async ({ target }) => {
         const form = target.parentNode.parentNode
-        await modifyFromTable(section, updateTable, addCharge, removeCharge, form)
+        const result = await modifyFromTable(section, updateTable, addCharge, removeCharge, form)
+	if (!result) return
 	const tbody = document.getElementById('popUpTable')
 	const dataLength = tbody.getElementsByTagName('td').length;
 	if (dataLength <= 1) {

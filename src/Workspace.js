@@ -4,13 +4,13 @@ import Table from "./components/Table";
 import React, { useEffect } from "react";
 import { Redirect, useParams } from "react-router-dom";
 import { connect, useSelector } from "react-redux";
-import { setResetAllFunction, resetAditionalForms, resetConsultSelectsData, hidePopUpDiv, changeSection } from "./store/workspaceActions";
+import { setResetAllFunction, resetAditionalForms, resetConsultSelectsData, hidePopUpDiv, changeSection, setPopUpDivContent } from "./store/workspaceActions";
 import { backToRegisterMode } from "./components/ActionsButtons";
 import { resetInputs, resetCorrectionPs } from "./helpers/functions";
 import ChargingImage from "./components/ChargingImage";
 import translations from "./helpers/translations";
 
-const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelectsData, doTableSearch, hidePopUpDiv, changeSection, userID }) => {
+const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelectsData, doTableSearch, hidePopUpDiv, changeSection, userID, setPopUpDivContent }) => {
     const { section } = useParams();
     const lang = useSelector(state => state.language)
 
@@ -41,6 +41,8 @@ const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelec
                     resetCorrectionPs();
 
                     hidePopUpDiv({ hidePopUpDiv: true });
+		    setPopUpDivContent({ popUpDivContent: <div></div> });
+
 
                     if (changeSection) {
                         resetConsultSelectsData();
@@ -54,7 +56,7 @@ const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelec
                 }
             },
         });
-    }, [ setResetAllFunction, resetAditionalForms, resetConsultSelectsData, doTableSearch, hidePopUpDiv, section, changeSection, lang ]);
+    }, [ setResetAllFunction, resetAditionalForms, resetConsultSelectsData, doTableSearch, hidePopUpDiv, section, changeSection, lang, setPopUpDivContent ]);
     if (userID) {
         if (
             ["Sales", "Clients", "Products", "Orders", "Suppliers"].includes(
@@ -83,13 +85,13 @@ const mapStateToProps = (state) => ({
     doTableSearch: state.doTableSearch,
     userID: state.userID,
 });
-
 const mapDispatchToProps = {
     setResetAllFunction,
     resetAditionalForms,
     resetConsultSelectsData,
     hidePopUpDiv,
     changeSection,
+    setPopUpDivContent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Workspace);
