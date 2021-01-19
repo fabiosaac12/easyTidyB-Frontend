@@ -1,38 +1,28 @@
-# Easy Tidy B - Frontend
+# Easy Tidy B - Frontend 
+This is the frontend of Easy Tidy Business App. This app objective is to supply an easy to use user interface for the user to be able to have a efficient and simple administration of his business.
 
-## Web
-### `npm run react-start`
+To use this app for your business administration or see how it looks, you can visit [this URL](https://easytidyb.herokuapp.com).
 
-Inicia a la aplicacion en el modo de desarrollo.<br />
-Abre [http://localhost:3000](http://localhost:3000) en tu navegador para verla.
+### Frameworks and libraries used:
+- React with hooks.
+- Redux to make easier the components comunication with a global state.
+- Highcharts for the dashboard graphs.
+- Bootstrap for pre-established styles.
+- Sha256 for the password encryption.
 
-La pagina se recargara automaticamente cuando realices cambios en el codigo.<br />
-Tambien podras ver algunos errores o advertencias en la consola.
+### App complementations:
+- This app depends on an API, whose code is on the [easyTidyB-API repository](https://github.com/fabiosaac12/easyTidyB-API)
+- The API, at the same time, depends on a MySQL database, whose code is on the [easyTidyB-DB repository](https://github.com/fabiosaac12/easyTidyB-DB)
 
-### `npm run react-test`
+### How to clone this repository and start using this app locally:
+1. Open the terminal
+2. `git clone https://github.com/fabiosaac12/easyTidyB-Frontend` --> clone the repository
+3. `cd easyTidyB-Frontend` --> move to the generated folder
+4. `npm install` --> this will install all the required modules
+5. Set the necessary environment variables in the .env file.
+6. `npm start` --> this will start the development server on port 3000
 
-Inicia el modo de prueba en modo interactivo.<br />
-Dale un vistazo a la [documentacion oficial](https://facebook.github.io/create-react-app/docs/running-tests) sobre este comando para mas informacion.
-
-### `npm run react-build`
-
-De forma optimizada crea la aplicacion para produccion en la carpeta `build`.<br />
-Dale un vistazo a la [documentacion oficial](https://facebook.github.io/create-react-app/docs/deployment) sobre este comando para mas informacion.
-
-### `npm run react-eject`
-
-Este comando eliminará la unica dependencia de compilación de el proyecto. Una vez que lo utilices, no puedes volver atras.
-
-
-## Desktop
-### `npm run start`
-Este comando iniciara el servidor de la aplicacion en [http://localhost:3000](http://localhost:3000) y posteriormente abrira la aplicacion de escritorio.
-
-### `npm run electron-build`
-Inicia la construccion de el instalador de la aplicacion de escritorio para el sistema operativo en el que se este trabajando.
-
-### `npm run build`
-De forma optimizada crea la aplicacion para produccion en la carpeta `build` y posteriormente inicia la construccion de el instalador de la aplicacion de escritorio para el sistema operativo en el que se este trabajando.
-
-### `npm run release`
-Inicia la construccion de el instalador de la aplicacion de escritorio para el sistema operativo en el que se este trabajando y posteriormente realiza la publicacion de la misma.
+### Other npm commands:
+- `npm test`: Launches the test runner in the interactive watch mode.
+- `npm run build`: Builds the app for production to the `build` folder.\
+- `npm run eject`: If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
