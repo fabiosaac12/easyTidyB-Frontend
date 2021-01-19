@@ -46,7 +46,7 @@ const Searcher = ({setDoTableSearchFunction}) => {
             <div className="col-md-4"></div>
 			<div className="col-md-4"></div>
 			<div className="col-md-4">
-				<input className="form-control" id="searcher" placeholder={translations[lang].searcher.placeholder} onChange={doSearch} type="text"/>
+				<input className="fsControl" id="searcher" placeholder={translations[lang].searcher.placeholder} onChange={doSearch} type="text"/>
 			</div>
         </div>
     </form>

@@ -39,7 +39,7 @@ const generateNewOptions = (options) => {
 }
 
 const generateItem = (select, lang) => {
-    const className = 'form-control'
+    const className = 'fsControl'
     const name = select.getElementsByTagName('input')[1].getAttribute('name')
     const heritable = 'heritable'
     const placeholder = translations[lang].aditionalForm.productPlaceholder

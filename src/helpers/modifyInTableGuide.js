@@ -4,14 +4,14 @@ const modifyInTableInputs = {
     Sales: {
         id: {
             tag: 'input',
-            className: 'form-control id',
+            className: 'fsControl id',
             name: 'id',
             disabled: true
         },
         clientID: {
             tag: 'select',
             name: 'clientID',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: null,
             min: null,
             choices: {
@@ -19,12 +19,12 @@ const modifyInTableInputs = {
             },
             disabled: false,
             heritable: 'notHeritable',
-	    onChange: () => null
+            onChange: () => null
         },
         productID: {
             tag: 'select',
             name: 'productID',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: null,
             min: null,
             choices: {
@@ -32,13 +32,13 @@ const modifyInTableInputs = {
             },
             disabled: true,
             heritable: 'notHeritable',
-	    onChange: () => null
+            onChange: () => null
         },
         quantity: {
             tag: 'input',
             type: 'number',
             name: 'quantity',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: null,
             min: 0,
             disabled: false,
@@ -48,7 +48,7 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'number',
             name: 'obtained',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: 'any',
             min: null,
             disabled: false,
@@ -58,7 +58,7 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'number',
             name: 'profit',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: 'any',
             min: null,
             disabled: true,
@@ -68,7 +68,7 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'number',
             name: 'discount',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: 'any',
             min: null,
             disabled: false,
@@ -77,12 +77,11 @@ const modifyInTableInputs = {
         type: {
             tag: 'select',
             name: 'type',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: null,
             min: null,
             choices: {
-                options: [
-                    {
+                options: [{
                         value: 'Retail',
                         label: 'Retail'
                     },
@@ -100,14 +99,14 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'date',
             name: 'date',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             onChange: () => null
         }
     },
     Products: {
         id: {
             tag: 'input',
-            className: 'form-control id',
+            className: 'fsControl id',
             name: 'id',
             disabled: true,
             onChange: () => null
@@ -115,7 +114,7 @@ const modifyInTableInputs = {
         orderID: {
             tag: 'select',
             name: 'orderID',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: null,
             min: null,
             choices: {
@@ -123,13 +122,13 @@ const modifyInTableInputs = {
             },
             disabled: false,
             heritable: 'notHeritable',
-	    onChange: () => null
+            onChange: () => null
         },
         name: {
             tag: 'input',
             type: 'text',
             name: 'name',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         },
@@ -137,7 +136,7 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'text',
             name: 'char1',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         },
@@ -145,7 +144,7 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'text',
             name: 'char2',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         },
@@ -153,7 +152,7 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'number',
             name: 'initialStock',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: null,
             min: 0,
             disabled: false,
@@ -163,7 +162,7 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'number',
             name: 'retailPrice',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: 'any',
             min: null,
             disabled: false,
@@ -173,7 +172,7 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'number',
             name: 'wholesalePrice',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: 'any',
             min: null,
             disabled: false,
@@ -183,7 +182,7 @@ const modifyInTableInputs = {
             tag: 'input',
             type: 'number',
             name: 'purchasePrice',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: 'any',
             min: null,
             disabled: false,
@@ -191,81 +190,83 @@ const modifyInTableInputs = {
         },
     },
     Clients: {
-	id: {
+        id: {
             tag: 'input',
-            className: 'form-control id',
+            className: 'fsControl id',
             name: 'id',
             disabled: true,
             onChange: () => null
         },
-	name: {
+        name: {
             tag: 'input',
             type: 'text',
             name: 'name',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         },
-	contact: {
+        contact: {
             tag: 'input',
             type: 'text',
             name: 'contact',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         },
-	place: { tag: 'input', type: 'text',
+        place: {
+            tag: 'input',
+            type: 'text',
             name: 'place',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         }
     },
     Suppliers: {
-	id: {
+        id: {
             tag: 'input',
-            className: 'form-control id',
+            className: 'fsControl id',
             name: 'id',
             disabled: true,
             onChange: () => null
         },
-	name: {
+        name: {
             tag: 'input',
             type: 'text',
             name: 'name',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         },
-	contact: {
+        contact: {
             tag: 'input',
             type: 'text',
             name: 'contact',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         },
-	place: {
+        place: {
             tag: 'input',
             type: 'text',
             name: 'place',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         }
     },
     Orders: {
-	id: {
+        id: {
             tag: 'input',
-            className: 'form-control id',
+            className: 'fsControl id',
             name: 'id',
             disabled: true,
             onChange: () => null
         },
-	supplierID: {
+        supplierID: {
             tag: 'select',
             name: 'supplierID',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             step: null,
             min: null,
             choices: {
@@ -273,25 +274,25 @@ const modifyInTableInputs = {
             },
             disabled: false,
             heritable: 'notHeritable',
-	    onChange: () => null
+            onChange: () => null
         },
-	expectedObtained: {
+        expectedObtained: {
             tag: 'input',
             type: 'number',
             name: 'expectedObtained',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         },
-	date: {
+        date: {
             tag: 'input',
             type: 'date',
             name: 'date',
-            className: 'form-control inputData',
+            className: 'fsControl inputData',
             disabled: false,
             onChange: () => null
         }
     }
 }
 
-export default modifyInTableInputs 
+export default modifyInTableInputs

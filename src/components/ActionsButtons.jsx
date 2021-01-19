@@ -69,7 +69,7 @@ const ModifyButton = ({ section, updateMainTable, consultSelectsData, resetAll, 
         resetAll(false)
         const mainForm = document.getElementById('mainForm');
 
-        const mainFormInputs = collectionToArray(mainForm.getElementsByClassName('form-control')).concat(collectionToArray(mainForm.getElementsByClassName('selectContainer')))
+        const mainFormInputs = collectionToArray(mainForm.getElementsByClassName('fsControl')).concat(collectionToArray(mainForm.getElementsByClassName('selectContainer')))
         const elements = e.target.parentNode.parentNode.getElementsByClassName('dataTD');
 
 	// if (section === 'Sales') await resetProductsOptions()

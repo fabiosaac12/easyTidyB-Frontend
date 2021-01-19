@@ -5,6 +5,10 @@ import {hidePopUpDiv, setPopUpDivContent} from '../../store/workspaceActions'
 import PopUpAddClient from '../PopUpAddClient'
 import './main.css'
 
+const isEven = (num) => {
+    return ((num%2)===0)
+}
+
 const FinderSelect = ({ elements, item, onClick, onChange, info, selectSection, setOptionsData }) => {
     const lang = useSelector(state => state.language)
     const dispatch = useDispatch()
@@ -73,16 +77,26 @@ const FinderSelect = ({ elements, item, onClick, onChange, info, selectSection, 
         hiddenInput.value = value
     }
     
-    // trying
+    const handleExtendIconClick = (e) => {
+	const selectInput = e.target.parentNode.getElementsByClassName('selectInput')[0]
+	const ulVisible = e.target.parentNode.getElementsByClassName('selectUL')[0].style.display !== 'none'
+	if (!ulVisible) {
+	    // if we dont avoid the default event, then the focus will go to the extendIcon because of the click event
+	    e.preventDefault()
+	    selectInput.focus()
+	} 
+    }
+
     const options = elements.map((e, i) => {
-        return <li key={i} onMouseDown={handleLiOnClick} style={{display: e.display === false ? 'none' : ''}} className={`${item.name}LI selectLI`}>{e.label}
+        return <li key={i} onMouseDown={handleLiOnClick} style={{display: e.display === false ? 'none' : ''}} className={`${item.name}LI ${!isEven(i) ? 'even' : ''} selectLI`}>{e.label}
             <span hidden>{e.value}</span>
             <p className="selectInfoP">{e[info]}</p>
         </li>
     })
 
-    return <div className={`${item.name}Div selectContainer input-group ${item.heritable}`} >
-        <input className={`${item.name}Input selectInput ${item.className}`} placeholder={item.placeholder} onChange={doSearch} onSelect={handleInputOnSelect} onBlur={handleInputOnBlur} />
+    return <div className={`${item.name}Div selectContainer ${item.heritable}`} >
+        <input className={`${item.name}Input selectInput ${item.className}`} placeholder={item.placeholder} onChange={doSearch} onFocus={handleInputOnSelect} onBlur={handleInputOnBlur} />
+	<div onMouseDown={handleExtendIconClick} className='extendIcon'/>
         <input name={item.name} className={`${item.name} inputData`} hidden={true}></input>
         <ul style={{ display: 'none' }} className={`${item.name}UL selectUL`}>
             {options}

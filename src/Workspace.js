@@ -65,7 +65,7 @@ const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelec
         ) {
             return (
                 <div>
-                    <div id="bodyDiv" className="container">
+                    <div id="bodyDiv" className="container-md">
                         <Form />
                         <Table />
                     </div>

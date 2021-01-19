@@ -44,15 +44,15 @@ const PopUpAddClient = ({ input, lang, newClientName, setOptionsData }) => {
 
     return <div>
 	<div className='inputDiv' >
-	    <input className='form-control w-auto mb-2 mt-2 name' name='name' placeholder={translations[lang].form.placeholders.name} defaultValue={newClientName} />
+	    <input className='fsControl w-auto mb-2 mt-2 name' name='name' placeholder={translations[lang].form.placeholders.name} defaultValue={newClientName} />
 	    <p className={`correctionsP`}><small className='nameFixes'></small></p>
 	</div>
 	<div className='inputDiv' >
-	    <input className='form-control w-auto mb-2 contact' name='contact' placeholder={translations[lang].form.placeholders.contact} />
+	    <input className='fsControl w-auto mb-2 contact' name='contact' placeholder={translations[lang].form.placeholders.contact} />
 	    <p className={`correctionsP`}><small className={'contactFixes'}></small></p>
 	</div>
 	<div className='inputDiv' >
-	    <input className='form-control w-auto mb-3 place' name='place' placeholder={translations[lang].form.placeholders.place} />
+	    <input className='fsControl w-auto mb-3 place' name='place' placeholder={translations[lang].form.placeholders.place} />
 	    <p className={`correctionsP`}><small className={'placeFixes'}></small></p>
 	</div>
 	    <button onClick={handleSubmit} className='btn btn-block btn-primary' >{translations[lang].words.register}</button>

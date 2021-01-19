@@ -4,25 +4,32 @@ body {
     font-family: Helvetica;
 }
 
+.btn:focus,
+button:focus {
+    border: 0px;
+    border-color: #00000000;
+    box-shadow: 0 0px 0px #00000000 inset, 0 0 0px #00000000;
+    outline: 0 none;
+}
+
 .graphContainer * {
     max-width: 100%;
-    overflow-x: hidden
+    overflow-x: hidden;
 }
 
 .navbar-collapse {
     margin-left: auto;
 }
 
-
 .nav-link {
     width: 100%;
-    text-align: left
+    text-align: left;
 }
 
 .aCard {
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-    padding: 9px
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    padding: 9px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -30,27 +37,38 @@ body {
         margin-left: 20px;
     }
     .dropdown-menu {
-	border: 0px;
-	padding: 0;
-	margin: 0 22px 0 0;
-	display: block;
-	text-align: right
+        border: 0px;
+        padding: 0;
+        margin: 0 22px 0 0;
+        display: block;
+        text-align: right;
     }
     .dropdown-item {
-	padding: 0;
-	margin: 0px 0px 10px 0px
+        padding: 0;
+        margin: 0px 0px 10px 0px;
     }
 
-    .dropdown-item:focus, .dropdown-item:hover {
-	background: inherit;
-	color: #fff
+    .dropdown-item:focus,
+    .dropdown-item:hover {
+        background: inherit;
+        color: #fff;
     }
 
     .dropdown-toggle {
-	display: none
+        display: none;
+    }
+    .mainFormContainer {
+	margin-left: 15px;
+	max-width: 255px;
     }
 }
 
+@media only screen and (max-width: 575px) {
+    .mainFormContainer {
+	margin-left: 1px;
+	max-width: none;
+    }
+}
 
 /* TO MAKE THE HEIGHT OF THE TABLE AND SET A Y-SCROLL */
 tbody {
@@ -65,8 +83,6 @@ tbody tr {
     table-layout: fixed;
     width: 100%;
 }
-
-
 
 .text-center {
     width: 100px;
@@ -107,9 +123,10 @@ tbody tr {
 }
 
 @media only screen and (max-width: 525px) {
-    .aditionalForm, .gridDiv {
-	max-width: none;
-	width: 100%
+    .aditionalForm,
+    .gridDiv {
+        max-width: none;
+        width: 100%;
     }
 }
 
@@ -177,9 +194,29 @@ select {
 }
 
 .dropdown-item {
-    color: #fff
+    color: #fff;
 }
 
-.dropdown-item:active, .nav-link:active {
-    background: #636363
-} 
+.dropdown-item:active,
+.nav-link:active {
+    background: #636363;
+}
+
+@media only screen and (max-height: 402px) {
+    .nav-link {
+        padding: 0px;
+    }
+}
+
+@media only screen and (max-height: 319px) {
+    ul {
+        overflow: auto;
+        max-height: 200px;
+    }
+}
+@media only screen and (max-height: 250px) {
+    ul {
+        overflow: auto;
+        max-height: 150px;
+    }
+}

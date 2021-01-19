@@ -84,17 +84,17 @@ const SignUp = ({ userID, logIn }) => {
                     <form className="mt-4" id="mainForm">
                         <div className="form-group">
 			    <label htmlFor="username">{translations[lang].log.user}</label>
-                            <input type="text" className="form-control" id="username" required={true} placeholder="miusuario"></input>
+                            <input type="text" className="fsControl" id="username" required={true} placeholder="miusuario"></input>
                             <p className="correctionsP"><small id="usernameFixes"></small></p>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">{translations[lang].log.pass}</label>
-                            <input type="password" className="form-control" id="password" required={true} placeholder="miclave8"></input>
+                            <input type="password" className="fsControl" id="password" required={true} placeholder="miclave8"></input>
                             <p className="correctionsP"><small id="passwordFixes"></small></p>
                         </div>
                         <div className="form-group">
                             <label htmlFor="passwordConfirmation">{translations[lang].log.passConfirmation}</label>
-                            <input type="password" className="form-control" id="passwordConfirmation" required={true} placeholder="miclave8"></input>
+                            <input type="password" className="fsControl" id="passwordConfirmation" required={true} placeholder="miclave8"></input>
                             <p className="correctionsP"><small id="passwordConfirmationFixes"></small></p>
                         </div>
                         <div className='mb-3' id='chargingDiv' style={{ width: "50px", height: "50px", margin: 'auto', display: 'none' }}>
