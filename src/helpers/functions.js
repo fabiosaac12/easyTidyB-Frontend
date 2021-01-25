@@ -173,7 +173,7 @@ export const collectionToArray = (collection) => {
 }
 
 export const resetInputs = (changeSection=true) => {
-    let inputs = document.getElementsByTagName('input')
+    let inputs = document.getElementById('mainForm').getElementsByTagName('input')
     for (let i = 0; i < inputs.length; i++) {
         const input = inputs[i];
         input.value = input.id === 'searcher' && changeSection === false ? input.value : '';
