@@ -55,6 +55,9 @@ const calculateSale = (e, form, modifyMode=false, lang) => {
         discount: form.getElementsByClassName(`discount${modifyMode ? 'TD' : ''}`)[0],
         type: modifyMode ? form.getElementsByClassName(`type${modifyMode ? 'TD' : ''}`)[0] : document.getElementById('mainForm').getElementsByClassName('type')[0]
     }
+
+    if (inputs.productID.value === '') return
+
     clearFields(e.target, inputs, modifyMode)
     
     const values = {

@@ -158,13 +158,21 @@ const generateNewSelect = (item, label, url, toDinamicSelect, lang) => {
     </div>
 }
 
-const setNeccesaryValues = () => {
+const setNeccesaryValues = (lang, section) => {
     const dateInput = document.getElementsByName('date')[0];
     try {
-        if (dateInput.tagName === 'INPUT' && document.getElementById('registerButton').innerHTML !== 'Modificar') {
+        if (dateInput.tagName === 'INPUT' && document.getElementById('registerButton').innerHTML !== translations[lang].words.modify) {
             dateInput.valueAsDate = new Date();
         }
     } catch { }
+    if (section === 'Sales') {
+	const typeInput = document.getElementsByName('type')[0];
+	try {
+	    if (typeInput.tagName === 'SELECT' && document.getElementById('registerButton').innerHTML !== translations[lang].words.modify) {
+		typeInput.value = 'Retail';
+	    }
+	} catch { }
+    }
 }
 
 const consultSelectsOptions = async (consultSelectsData) => {
@@ -215,7 +223,7 @@ const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey,
 
     }, [section, addConsultSelectDataFunction, setResetProductsOptions, userID, addCharge, removeCharge, lang])
 
-    setNeccesaryValues()
+    if (aditionalForms.length === 0) setNeccesaryValues(lang, section)
 
     const handleNewFormClick = async () => {
         if (section === 'Sales') {

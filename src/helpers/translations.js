@@ -155,7 +155,7 @@ const translations = {
 
 	},
 	popUpDiv: {
-	    titleProducts: (name, char1, char2) => `Product: ${name} ${char1} ${char2}`,
+	    titleProducts: (name, char1, char2) => `Product: ${name} ${char1 ? char1 : ''} ${char2 ? char2 : ''}`,
 	    titleSales: (client, date) => `Sale to ${client} at ${date}`,
 	},
 	searcher: {
@@ -380,7 +380,7 @@ const translations = {
 	    signUpTitle: 'Crear una cuenta'
 	},
 	popUpDiv: {
-	    titleProducts: (name, char1, char2) => `Producto: ${name} ${char1} ${char2}`,
+	    titleProducts: (name, char1, char2) => `Producto: ${name} ${char1 ? char1 : ''} ${char2 ? char2 : ''}`,
 	    titleSales: (client, date) => `Venta a ${client} el ${date}`,
 	},
 	searcher: {

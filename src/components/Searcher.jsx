@@ -7,6 +7,7 @@ import translations from '../helpers/translations';
 const Searcher = ({setDoTableSearchFunction}) => {
     const mounted = useRef(false)
     const lang = useSelector(state => state.language)
+    const inModifyMode = useSelector(state => state.inModifyMode)
 
     const doSearch = (e) => {
         let whatSearch = removeAccents(e.target.value.toLowerCase());
@@ -46,7 +47,7 @@ const Searcher = ({setDoTableSearchFunction}) => {
             <div className="col-md-4"></div>
 			<div className="col-md-4"></div>
 			<div className="col-md-4">
-				<input className="fsControl" id="searcher" placeholder={translations[lang].searcher.placeholder} onChange={doSearch} type="text"/>
+			    <input className="fsControl" id="searcher" disabled={inModifyMode>0} placeholder={translations[lang].searcher.placeholder} onChange={doSearch} type="text"/>
 			</div>
         </div>
     </form>

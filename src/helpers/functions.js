@@ -21,7 +21,9 @@ export const elementToJSON = (tds, headers) => {
     return element;
 };
 
-export const request = async (url, init = { method: "GET" }) => {
+export const request = async (url, init = { method: "GET", headers: {} }, userID=12345678) => {
+    init.headers['authorization'] = `Basic ${btoa('username'+':'+'password')}}`
+    
     const response = await fetch(url, init);
     const data = await response.json();
     return data;

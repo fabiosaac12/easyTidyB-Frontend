@@ -97,8 +97,8 @@ const SignUp = ({ userID, logIn }) => {
                             <input type="password" className="fsControl" id="passwordConfirmation" required={true} placeholder="miclave8"></input>
                             <p className="correctionsP"><small id="passwordConfirmationFixes"></small></p>
                         </div>
-                        <div className='mb-3' id='chargingDiv' style={{ width: "50px", height: "50px", margin: 'auto', display: 'none' }}>
-                            <img src="https://github.com/fabiosaac12/easyTidyB-Frontend/blob/master/src/styles/chargingImageGandB.png?raw=true" style={{ maxHeight: '100%', maxWidth: '100%' }} className="imgr" alt='chargingImgagen'></img>
+			    <div className='mb-3' id='chargingDiv' style={{ width: "50px", height: "50px", margin: 'auto', display: 'none' }}>
+				<img src="https://github.com/fabiosaac12/easyTidyB-Frontend/blob/master/src/styles/chargingImageGandB.png?raw=true" style={{ maxHeight: '100%', maxWidth: '100%' }} className="imgr" alt='chargingImgagen'></img>
                         </div>
                         <button className="btn btn-block btn-success" onClick={handleSubmitClick}>{translations[lang].log.signUp}</button>
                         <Link className="btn btn-block btn-info" to="/login">{translations[lang].log.haveAccount}</Link>

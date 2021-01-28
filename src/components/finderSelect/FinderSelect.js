@@ -44,18 +44,19 @@ const FinderSelect = ({ elements, item, onClick, onChange, info, selectSection, 
 	    }
 	    target.value = ''
 	    target.parentNode.getElementsByTagName('input')[1].value = ''
-            doSearch({target})
         }
         
         try {
             if (selectSection!=='Clients') onChange({target}, lang)
         } catch(e){}
+
+	doSearch({target}, true)
     }
     
     
-    const doSearch = ({target}) => {
+    const doSearch = ({target}, reset=false) => {
         const whereSearch = target.parentNode.getElementsByTagName('li')
-        const whatSearch = removeAccents(target.value.toLowerCase());
+        const whatSearch = reset ? '' : removeAccents(target.value.toLowerCase());
         
         for (let i = 0; i < whereSearch.length; i++) {
             const li = whereSearch[i];

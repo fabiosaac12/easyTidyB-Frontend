@@ -64,10 +64,10 @@ const generateTDToModifyMode = (column, section, row, col, lang) => {
 
 const generateButtonsToModifyMode = (setModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, hidePopUpDiv, setModifyModeFunctions, updateMainTable, resetProductsOptions) => {
     const handleModifyClick = async ({ target }) => {
+	const tbody = target.parentNode.parentNode.parentNode
         const form = target.parentNode.parentNode
         const result = await modifyFromTable(section, updateTable, addCharge, removeCharge, form)
 	if (!result) return
-	const tbody = document.getElementById('popUpTable')
 	const dataLength = tbody.getElementsByTagName('td').length;
 	if (dataLength <= 1) {
             hidePopUpDiv({ hidePopUpDiv: true });
@@ -152,7 +152,7 @@ const Tr = ({ columns, row, updateTable, section, i }) => {
     if (!modifyMode && inModifyMode < 1) {
         for (let col in columns) {
             let column = columns[col][0]
-            tds.push(<td onDoubleClick={handleOnDoubleClickToNoModifyMode} className={`text-center ${column}TD dataTD ${columns[col][1] ? 'd-none' : ''}`} name={`${column}`} key={`${i}${col}`}>{row[column]}</td>)
+            tds.push(<td onDoubleClick={handleOnDoubleClickToNoModifyMode} className={`text-center ${column}TD dataTD toSearch ${columns[col][1] ? 'd-none' : ''}`} name={`${column}`} key={`${i}${col}`}>{row[column]}</td>)
         }
         const actionButtons = <ActionsButtons updateTable={updateTable} key='actions' />
         tds.push(actionButtons)
@@ -171,7 +171,7 @@ const Tr = ({ columns, row, updateTable, section, i }) => {
         const names = getNames(true)
         for (let col in columns) {
             let column = columns[col][0]
-            tds.push(<td onDoubleClick={handleOnDoubleClickToNoModifyMode} className={`text-center ${column}TD dataTD ${!names.includes(column) || column==='id' ? 'd-none' : ''}`} name={`${column}`} key={`${i}${col}`}>{row[column]}</td>)
+            tds.push(<td onDoubleClick={handleOnDoubleClickToNoModifyMode} className={`text-center ${column}TD toSearch dataTD ${!names.includes(column) || column==='id' ? 'd-none' : ''}`} name={`${column}`} key={`${i}${col}`}>{row[column]}</td>)
         }
         const actionButtons = <ActionsButtons updateTable={updateTable} key='actions' />
         tds.push(actionButtons)
