@@ -7,7 +7,7 @@ import OrdersGraph from "./components/graphs/OrdersGraph";
 import SalesGraph from "./components/graphs/SalesGraph";
 import { request } from "./helpers/functions";
 import translations from "./helpers/translations";
-import { changeSection, addCharge, removeCharge } from "./store/workspaceActions";
+import { changeSection, addCharge, removeCharge } from "./store/actions";
 
 const Dashboard = ({ changeSection, accessToken, addCharge, removeCharge }) => {
     const mounted = useRef(true);

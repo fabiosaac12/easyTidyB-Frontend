@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import columns from '../helpers/columns';
 import { collectionToArray, elementToJSON, request, getInnerText, resetInputs, resetCorrectionPs } from '../helpers/functions';
-import { alterInModifyMode as alterInModifyModeDispatch, hidePopUpDiv, addCharge, removeCharge } from '../store/workspaceActions';
+import { alterInModifyMode as alterInModifyModeDispatch, hidePopUpDiv, addCharge, removeCharge } from '../store/actions';
 import data from '../helpers/data';
 import { resetAllModifyModes } from './Tr';
 import translations from '../helpers/translations';

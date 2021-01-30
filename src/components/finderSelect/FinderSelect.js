@@ -1,7 +1,7 @@
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { removeAccents, getInnerText } from '../../helpers/functions'
-import {hidePopUpDiv, setPopUpDivContent} from '../../store/workspaceActions'
+import {hidePopUpDiv, setPopUpDivContent} from '../../store/actions'
 import PopUpAddClient from '../PopUpAddClient'
 import './main.css'
 

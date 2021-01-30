@@ -3,7 +3,7 @@ import { connect, useDispatch, useSelector } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom';
 import Welcome from './Welcome';
 import { verifyUsername, verifyPassword, verifyPasswordConfirmation, request, showFixes, cleanParagraphs, switchLanguage } from '../helpers/functions';
-import { logIn } from '../store/workspaceActions';
+import { logIn } from '../store/actions';
 import sha256 from 'sha256';
 import translations from '../helpers/translations';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

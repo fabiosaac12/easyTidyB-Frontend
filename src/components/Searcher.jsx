@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {removeAccents} from '../helpers/functions';
-import {setDoTableSearchFunction} from '../store/workspaceActions'
+import {setDoTableSearchFunction} from '../store/actions'
 import { connect, useSelector } from 'react-redux';
 import translations from '../helpers/translations';
 

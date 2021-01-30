@@ -1,11 +1,14 @@
 import { createStore } from 'redux';
 import React from 'react'
+import {loadState, saveState} from './localStorage';
+
+const { accessToken, username, language, section } = loadState()
 
 const initialState = {
-    language: 'es',
-    accessToken: false,
-    username: false,
-    section: '',
+    language: language ? language : 'es',
+    accessToken: accessToken ? accessToken : false,
+    username: username ? username : false,
+    section: section ? section : '',
     hidePopUpDiv: true,
     popUpDivContent: <div></div>,
     updateMainTable: () => null, 
@@ -58,4 +61,10 @@ const reducer = (state = initialState, { type, payload }) => {
     }
 }
 
-export default createStore(reducer)
+const store = createStore(reducer)
+
+store.subscribe(() => {
+    saveState(store.getState())
+})
+
+export default store

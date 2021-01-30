@@ -4,7 +4,7 @@ import FinderSelect from './finderSelect/FinderSelect';
 import AditionalForms, { createANewForm } from './AditionalForms';
 import formModels from '../helpers/forms';
 import sendForms from '../helpers/formsActions';
-import { addANewForm, deleteAditionalForm, addConsultSelectDataFunction, setResetProductsOptions, addCharge, removeCharge } from '../store/workspaceActions';
+import { addANewForm, deleteAditionalForm, addConsultSelectDataFunction, setResetProductsOptions, addCharge, removeCharge } from '../store/actions';
 import { request, verifyFields, calculateAvailableProductsLength } from '../helpers/functions'
 import { monitorProductSelects } from '../helpers/saleFormActions';
 import data from '../helpers/data';

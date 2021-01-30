@@ -4,7 +4,7 @@ import Table from "./components/Table";
 import React, { useEffect } from "react";
 import { Redirect, useParams } from "react-router-dom";
 import { connect, useSelector } from "react-redux";
-import { setResetAllFunction, resetAditionalForms, resetConsultSelectsData, hidePopUpDiv, changeSection, setPopUpDivContent } from "./store/workspaceActions";
+import { setResetAllFunction, resetAditionalForms, resetConsultSelectsData, hidePopUpDiv, changeSection, setPopUpDivContent } from "./store/actions";
 import { backToRegisterMode } from "./components/ActionsButtons";
 import { resetInputs, resetCorrectionPs } from "./helpers/functions";
 import ChargingImage from "./components/ChargingImage";

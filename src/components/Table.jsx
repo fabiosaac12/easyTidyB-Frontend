@@ -5,7 +5,7 @@ import Searcher from './Searcher'
 import Tr, {resetAllModifyModes} from './Tr';
 import allColumns from '../helpers/columns';
 import { createPopUpTable } from './PopUpTable'
-import { addCharge, alterInModifyMode, hidePopUpDiv, removeCharge, setCleanMainTable, setPopUpDivContent, setUpdateMainTable } from '../store/workspaceActions'
+import { addCharge, alterInModifyMode, hidePopUpDiv, removeCharge, setCleanMainTable, setPopUpDivContent, setUpdateMainTable } from '../store/actions'
 import { request} from '../helpers/functions';
 import { getNames } from './Tr.jsx'
 import translations from '../helpers/translations';

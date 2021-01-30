@@ -2,7 +2,7 @@ import formVerification from './formVerification'
 import translations from './translations';
 import {
     changeLanguage
-} from "../store/workspaceActions.js";
+} from "../store/actions.js";
 
 export const switchLanguage = (lang, dispatch) => {
     const newLang = document.getElementById('langButton').getAttribute("name");

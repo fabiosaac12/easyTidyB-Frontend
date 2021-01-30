@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux';
 import translations from '../helpers/translations';
-import {hidePopUpDiv, alterInModifyMode as alterInModifyModeDispatch, setPopUpDivContent} from '../store/workspaceActions';
+import {hidePopUpDiv, alterInModifyMode as alterInModifyModeDispatch, setPopUpDivContent} from '../store/actions';
 import { resetAllModifyModes } from './Tr'
 
 const PopUpDiv = ({hide, content, setHide, updateMainTable, section}) =>  {

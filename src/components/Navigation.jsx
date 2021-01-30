@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import translations from '../helpers/translations';
-import { alterInModifyMode, logIn } from '../store/workspaceActions';
+import { alterInModifyMode, logIn } from '../store/actions';
 import {request, switchLanguage} from '../helpers/functions.js';
 import data from '../helpers/data';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

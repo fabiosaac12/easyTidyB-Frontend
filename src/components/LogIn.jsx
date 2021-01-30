@@ -3,7 +3,7 @@ import { connect, useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { verifyUsername, verifyPassword, request, cleanParagraphs, showFixes, switchLanguage } from '../helpers/functions';
-import { logIn } from '../store/workspaceActions';
+import { logIn } from '../store/actions';
 import Welcome from './Welcome';
 import { verifyResponse } from '../helpers/logSystemActions'
 import sha256 from 'sha256';

@@ -4,7 +4,7 @@ import { collectionToArray, resetCorrectionPs, resetInputs } from '../helpers/fu
 import ActionsButtons from './ActionsButtons'
 import data from '../helpers/data';
 import { modifyFromTable } from '../helpers/formsActions'
-import { hidePopUpDiv, addSetModifyModeFunction, alterInModifyMode as alterInModifyModeDispatch, addCharge as addChargeDispatch, removeCharge as removeChargeDispatch } from '../store/workspaceActions';
+import { hidePopUpDiv, addSetModifyModeFunction, alterInModifyMode as alterInModifyModeDispatch, addCharge as addChargeDispatch, removeCharge as removeChargeDispatch } from '../store/actions';
 import modifyInTableInputs from '../helpers/modifyInTableGuide';
 import {useEffect} from 'react';
 import translations from '../helpers/translations';

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {simpleAddElement} from '../helpers/formsActions';
 import {verifyFields} from '../helpers/functions';
 import translations from '../helpers/translations';
-import {addCharge, hidePopUpDiv, removeCharge, setPopUpDivContent} from '../store/workspaceActions';
+import {addCharge, hidePopUpDiv, removeCharge, setPopUpDivContent} from '../store/actions';
 
 
 const getData = (target) => {
