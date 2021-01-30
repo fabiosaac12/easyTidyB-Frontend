@@ -18,7 +18,7 @@ const getData = (target) => {
 }
 
 const PopUpAddClient = ({ input, lang, newClientName, setOptionsData }) => {
-    const userID = useSelector(state => state.userID)
+    const accessToken = useSelector(state => state.accessToken)
     const dispatch = useDispatch()
 
     const closePoUpDiv = () => {
@@ -31,7 +31,7 @@ const PopUpAddClient = ({ input, lang, newClientName, setOptionsData }) => {
 	if (!isCorrect) return
 	const data = getData(target)
 	dispatch(addCharge())
-	const result = await simpleAddElement('Clients', data, userID, lang) 
+	const result = await simpleAddElement('Clients', data, accessToken, lang) 
 	dispatch(removeCharge())
 
 	if (result.isCorrect) {

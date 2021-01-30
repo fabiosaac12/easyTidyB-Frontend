@@ -9,7 +9,7 @@ import { request } from "./helpers/functions";
 import translations from "./helpers/translations";
 import { changeSection, addCharge, removeCharge } from "./store/workspaceActions";
 
-const Dashboard = ({ changeSection, userID, addCharge, removeCharge }) => {
+const Dashboard = ({ changeSection, accessToken, addCharge, removeCharge }) => {
     const mounted = useRef(true);
     const [salesData, setSalesData] = useState(false);
     const [ordersData, setOrdersData] = useState(false);
@@ -24,7 +24,8 @@ const Dashboard = ({ changeSection, userID, addCharge, removeCharge }) => {
         async (section) => {
             addCharge();
             let sectionData = await request(
-                `${process.env.REACT_APP_API_URL}/graph/${section}/${userID}`
+		`${process.env.REACT_APP_API_URL}/${section}/graph`,
+		accessToken
             );
             removeCharge();
             if (sectionData.length === 0) {
@@ -65,7 +66,7 @@ const Dashboard = ({ changeSection, userID, addCharge, removeCharge }) => {
             }
             return sectionData;
         },
-	[userID, addCharge, removeCharge, lang]
+	[accessToken, addCharge, removeCharge, lang]
     );
 
     const setData = (section, newData) => {
@@ -87,7 +88,7 @@ const Dashboard = ({ changeSection, userID, addCharge, removeCharge }) => {
     };
 
     useEffect(() => {
-        if (!userID) return;
+        if (!accessToken) return;
         changeSection({ section: "dashboard" });
         const sections = ["daySales", "orders", "clients"];
         for (let i = 0; i < sections.length; i++) {
@@ -97,7 +98,7 @@ const Dashboard = ({ changeSection, userID, addCharge, removeCharge }) => {
             });
         }
         return () => (mounted.current = false);
-    }, [consultData, changeSection, userID]);
+    }, [consultData, changeSection, accessToken]);
 
     const salesGraph =
         salesData.length > 0 ? (
@@ -126,7 +127,7 @@ const Dashboard = ({ changeSection, userID, addCharge, removeCharge }) => {
             </div>
         );
 
-    if (userID) {
+    if (accessToken) {
         return (
             <div className="graphContainer">
                 <div className="row m-0">
@@ -145,7 +146,7 @@ const Dashboard = ({ changeSection, userID, addCharge, removeCharge }) => {
 };
 
 const mapStateToProps = (state) => ({
-    userID: state.userID,
+    accessToken: state.accessToken,
 });
 
 const mapDispatchToProps = {

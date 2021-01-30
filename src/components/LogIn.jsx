@@ -11,7 +11,7 @@ import translations from '../helpers/translations';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faLanguage } from '@fortawesome/free-solid-svg-icons'
 
-const LogIn = ({ logIn, userID }) => {
+const LogIn = ({ logIn, accessToken }) => {
     const fetching = useRef(false)
     const lang = useSelector(state => state.language)
     const dispatch = useDispatch();
@@ -38,20 +38,17 @@ const LogIn = ({ logIn, userID }) => {
         
         document.getElementById('chargingDiv').style.display='block'
         
-        const user = {
-            username,
-            password: sha256(password)
-        }
         const init = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user)
-        }
+            method: "POST",
+            headers: {
+                "Authorization": `Basic ${btoa(username + ":" + sha256(password))}`,
+            },
+        };
         const url = `${process.env.REACT_APP_API_URL}/login`;
         let response
         if (!fetching.current) {
             fetching.current = true
-            response = await request(url, init)
+            response = await request(url, false, init)
             fetching.current = false
         } else return alert(translations[lang].alert.operationInProcess)
         
@@ -59,7 +56,7 @@ const LogIn = ({ logIn, userID }) => {
         if (response['message'] === 'Database error') {
             showFixes(paragraphs['username'], [response['message']])
         }
-        else if (response['userID'] === false) {
+        else if (!response['accessToken']) {
             showFixes(paragraphs['username'], [translations[lang].corrections.wrongUserPass])
             document.getElementById('chargingDiv').style.display='none'
         } else {
@@ -67,7 +64,7 @@ const LogIn = ({ logIn, userID }) => {
         }
     }
 
-    if (userID) {
+    if (accessToken) {
         return <Redirect to={{ pathname: "/" }} />
     } else {
         return <div className="container">
@@ -106,7 +103,7 @@ const LogIn = ({ logIn, userID }) => {
 }
 
 const mapStateToProps = (state) => ({
-    userID: state.userID
+    accessToken: state.accessToken
 })
 
 const mapDispatchToProps = {

@@ -10,7 +10,7 @@ import { resetInputs, resetCorrectionPs } from "./helpers/functions";
 import ChargingImage from "./components/ChargingImage";
 import translations from "./helpers/translations";
 
-const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelectsData, doTableSearch, hidePopUpDiv, changeSection, userID, setPopUpDivContent }) => {
+const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelectsData, doTableSearch, hidePopUpDiv, changeSection, accessToken, setPopUpDivContent }) => {
     const { section } = useParams();
     const lang = useSelector(state => state.language)
 
@@ -57,7 +57,7 @@ const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelec
             },
         });
     }, [ setResetAllFunction, resetAditionalForms, resetConsultSelectsData, doTableSearch, hidePopUpDiv, section, changeSection, lang, setPopUpDivContent ]);
-    if (userID) {
+    if (accessToken) {
         if (
             ["Sales", "Clients", "Products", "Orders", "Suppliers"].includes(
                 section
@@ -83,7 +83,7 @@ const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelec
 
 const mapStateToProps = (state) => ({
     doTableSearch: state.doTableSearch,
-    userID: state.userID,
+    accessToken: state.accessToken,
 });
 const mapDispatchToProps = {
     setResetAllFunction,

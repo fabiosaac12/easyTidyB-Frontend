@@ -143,7 +143,7 @@ const ModifyButton = ({ section, updateMainTable, consultSelectsData, resetAll, 
     return <button onClick={handleClick} className="btn btn-info mr-1"></button>
 }
 
-const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMainTable, resetProductsOptions, userID, addCharge, removeCharge, alterInModifyMode }) => {
+const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMainTable, resetProductsOptions, accessToken, addCharge, removeCharge, alterInModifyMode }) => {
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
     const lang = useSelector(state => state.language)
     const aditionalForms = useSelector(state => state.aditionalForms)
@@ -168,12 +168,12 @@ const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMain
             const headers = columns[dataType][section];
             const element = elementToJSON(tds, headers);
 
-            const elements = await request(`${process.env.REACT_APP_API_URL}/${section}/equalelements/${userID}`, {
+	    const url = `${process.env.REACT_APP_API_URL}/${section}/equalelements`
+	    const init = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(element),
-                mode: 'cors'
-            });
+                body: JSON.stringify(element)
+            }
+            const elements = await request(url, accessToken, init);
 
             for (let element of elements) {
                 ids.push(element['id'])
@@ -184,10 +184,9 @@ const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMain
         const url = `${process.env.REACT_APP_API_URL}/${section}`;
         const init = {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(ids)
         };
-        await request(url, init);
+        await request(url, accessToken, init);
         await updateTable(section, dataType).then(() => {
             const dataLength = tbody.getElementsByTagName('td').length;
             if (dataLength <= 1) {
@@ -207,7 +206,7 @@ const DeleteButton = ({ dataType, section, updateTable, hidePopUpDiv, updateMain
     return <button className="btn btn-danger ml-1" onClick={handleClick}></button>;
 };
 
-const ActionsButtons = ({ section, dataType = 'detailed', updateTable, consultSelectsData, resetAll, updateMainTable, hidePopUpDiv, resetProductsOptions, userID, addCharge, removeCharge }) => {
+const ActionsButtons = ({ section, dataType = 'detailed', updateTable, consultSelectsData, resetAll, updateMainTable, hidePopUpDiv, resetProductsOptions, accessToken, addCharge, removeCharge }) => {
     const dispatch = useDispatch()
     const alterInModifyMode = (num) => {
 	dispatch(alterInModifyModeDispatch(num))
@@ -215,7 +214,7 @@ const ActionsButtons = ({ section, dataType = 'detailed', updateTable, consultSe
     return (
         <td className='text-center actionsTD'>
             {dataType === "detailed" ? <ModifyButton updateMainTable={updateMainTable} dataType={dataType} consultSelectsData={consultSelectsData} section={section} updateTable={updateTable} resetAll={resetAll} resetProductsOptions={resetProductsOptions} alterInModifyMode={alterInModifyMode}r /> : null}
-            <DeleteButton dataType={dataType} userID={userID} section={section} updateTable={updateTable} hidePopUpDiv={hidePopUpDiv} updateMainTable={updateMainTable} resetProductsOptions={resetProductsOptions} addCharge={addCharge} removeCharge={removeCharge} alterInModifyMode={alterInModifyMode} />
+            <DeleteButton dataType={dataType} accessToken={accessToken} section={section} updateTable={updateTable} hidePopUpDiv={hidePopUpDiv} updateMainTable={updateMainTable} resetProductsOptions={resetProductsOptions} addCharge={addCharge} removeCharge={removeCharge} alterInModifyMode={alterInModifyMode} />
         </td>
     )
 }
@@ -227,7 +226,7 @@ const mapStateToProps = (state) => ({
     resetAll: state.resetAll,
     updateMainTable: state.updateMainTable,
     resetProductsOptions: state.resetProductsOptions,
-    userID: state.userID
+    accessToken: state.accessToken
 })
 
 const mapDispatchToProps = {

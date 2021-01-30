@@ -3,7 +3,7 @@ import React from 'react'
 
 const initialState = {
     language: 'es',
-    userID: false,
+    accessToken: false,
     username: false,
     section: '',
     hidePopUpDiv: true,

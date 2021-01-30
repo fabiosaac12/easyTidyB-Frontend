@@ -4,29 +4,27 @@ import { collectionToArray, request, showFixes } from '../helpers/functions';
 import translations from './translations';
 
 
-const addElement = async (section, data, userID) => {
-    const url = `${process.env.REACT_APP_API_URL}/${section}/${userID}`;
+const addElement = async (section, data, accessToken) => {
+    const url = `${process.env.REACT_APP_API_URL}/${section}`;
     const init = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     };
-    const response = await request(url, init);
+    const response = await request(url, accessToken, init);
     return response
 }
 
-const modifyElement = async (section, data) => {
+const modifyElement = async (section, data, accessToken) => {
     const url = `${process.env.REACT_APP_API_URL}/${section}`;
     const init = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     };
-    const response = await request(url, init);
+    const response = await request(url, accessToken, init);
     return response
 }
 
-export const modifyFromTable = async (section, updateTable, addCharge, removeCharge, form) => {
+export const modifyFromTable = async (section, updateTable, addCharge, removeCharge, form, accessToken) => {
     const formInputs = collectionToArray(form.getElementsByTagName("input")).concat(collectionToArray(form.getElementsByTagName("select")))
     const formValues = {}
     for (let i = 0; i < formInputs.length; i++) {
@@ -36,7 +34,7 @@ export const modifyFromTable = async (section, updateTable, addCharge, removeCha
         formValues[inputName] = inputValue
     }
     if (section==='Products') {
-	const verification = await verifySoldProducts(formValues.id, formValues.initialStock)
+	const verification = await verifySoldProducts(accessToken,formValues.id, formValues.initialStock)
 	if (!verification) return false
     }
     addCharge()
@@ -50,7 +48,7 @@ export const modifyFromTable = async (section, updateTable, addCharge, removeCha
     return true
 }
 
-const sendForms = async (section, resetAll, updateMainTable, userID, addCharge, removeCharge, lang) => {
+const sendForms = async (section, resetAll, updateMainTable, accessToken, addCharge, removeCharge, lang) => {
     const mainForm = document.getElementById('mainForm');
     const mainInputs = mainForm.getElementsByClassName('notHeritable')
     const forms = document.getElementsByClassName('formToSend')
@@ -85,9 +83,9 @@ const sendForms = async (section, resetAll, updateMainTable, userID, addCharge, 
     let response
     addCharge()
     if (modifyMode) {
-        response = await modifyElement(section, formsValues[0])
+        response = await modifyElement(section, formsValues[0], accessToken)
     } else {
-        response = await addElement(section, formsValues, userID)
+        response = await addElement(section, formsValues, accessToken)
     }
     removeCharge()
     const isCorrect = verifyResponse(response, lang)
@@ -97,8 +95,8 @@ const sendForms = async (section, resetAll, updateMainTable, userID, addCharge, 
     }
 }
 
-export const simpleAddElement = async (section, data, userID, lang) => {
-    const response = await addElement(section, data, userID)
+export const simpleAddElement = async (section, data, accessToken, lang) => {
+    const response = await addElement(section, data, accessToken)
     const isCorrect = verifyResponse(response, lang)
     return {response, isCorrect}
 }

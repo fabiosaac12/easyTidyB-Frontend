@@ -63,7 +63,7 @@ const getInfo = (section) => {
     }
 }
 
-const Select = ({ item, section, addConsultSelectDataFunction, setResetProductsOptions, userID, addCharge, removeCharge }) => {
+const Select = ({ item, section, addConsultSelectDataFunction, setResetProductsOptions, accessToken, addCharge, removeCharge }) => {
     const mounted = useRef(false)
     const [optionsData, setOptionsDataState] = useState([])
     const instantOptionsData = useRef([])
@@ -93,12 +93,12 @@ const Select = ({ item, section, addConsultSelectDataFunction, setResetProductsO
     const consultOptionsData = useCallback(async (url, onThis = false) => {
         if (instantOptionsData.current.length === 0) {
             addCharge()
-            const data = await request(url + `/${userID}`);
+            const data = await request(url, accessToken);
             removeCharge()
             if (!onThis) return manageOptionsData(data, section)
             else return data
         }
-    }, [section, userID, manageOptionsData, addCharge, removeCharge])
+    }, [section, accessToken, manageOptionsData, addCharge, removeCharge])
 
     useEffect(() => {
 	mounted.current=true
@@ -138,8 +138,8 @@ const generateNewInput = ({ name, heritable, type, onChange, className, step, mi
     </div>;
 }
 
-const generateNewDinamicSelect = ({ userID, item, section, addConsultSelectDataFunction, setResetProductsOptions, addCharge, removeCharge }) => {
-    return <Select userID={userID} item={item} section={section} addConsultSelectDataFunction={addConsultSelectDataFunction} setResetProductsOptions={setResetProductsOptions} addCharge={addCharge} removeCharge={removeCharge} />
+const generateNewDinamicSelect = ({ accessToken, item, section, addConsultSelectDataFunction, setResetProductsOptions, addCharge, removeCharge }) => {
+    return <Select accessToken={accessToken} item={item} section={section} addConsultSelectDataFunction={addConsultSelectDataFunction} setResetProductsOptions={setResetProductsOptions} addCharge={addCharge} removeCharge={removeCharge} />
 }
 
 const generateNewNormalSelect = ({ name, onChange, className, heritable, step, min, disabled, choices }, lang) => {
@@ -190,9 +190,9 @@ const consultSelectsOptions = async (consultSelectsData) => {
     }
 }
 
-export const verifySoldProducts = async (id, quantity) => {
-    const url = `${process.env.REACT_APP_API_URL}/info/Products/${id}`
-    const info = await request(url)
+export const verifySoldProducts = async (accessToken, id, quantity) => {
+    const url = `${process.env.REACT_APP_API_URL}/Products/info/${id}`
+    const info = await request(url, accessToken)
     if (parseInt(quantity) < parseInt(info[0].sold)) {
 	alert(`No puedes introducir una cantidad inicial menor a la cantidad de unidades de este producto que ya has vendido. Has vendido ${info[0].sold} unidades.`)
 	return false
@@ -200,7 +200,7 @@ export const verifySoldProducts = async (id, quantity) => {
     return true
 }
 
-const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey, addConsultSelectDataFunction, consultSelectsData, resetAll, aditionalForms, updateMainTable, setResetProductsOptions, resetProductsOptions, userID, addCharge, removeCharge }) => {
+const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey, addConsultSelectDataFunction, consultSelectsData, resetAll, aditionalForms, updateMainTable, setResetProductsOptions, resetProductsOptions, accessToken, addCharge, removeCharge }) => {
     const [formElements, setFormElements] = useState([])
     const lang = useSelector(state => state.language)
     const fetching = useRef(false)
@@ -215,13 +215,13 @@ const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey,
                 newInput = generateNewInput(item, label, lang)
             } else {
                 const url = item.choices.url                          // TO SELECT JSX ELEMENT
-                newInput = generateNewSelect(item, label, url, { userID, item, section, addConsultSelectDataFunction, setResetProductsOptions, addCharge, removeCharge}, lang)
+                newInput = generateNewSelect(item, label, url, { accessToken, item, section, addConsultSelectDataFunction, setResetProductsOptions, addCharge, removeCharge}, lang)
             }
             formElements.push(newInput)
         }
         setFormElements(formElements)
 
-    }, [section, addConsultSelectDataFunction, setResetProductsOptions, userID, addCharge, removeCharge, lang])
+    }, [section, addConsultSelectDataFunction, setResetProductsOptions, accessToken, addCharge, removeCharge, lang])
 
     if (aditionalForms.length === 0) setNeccesaryValues(lang, section)
 
@@ -250,13 +250,13 @@ const Form = ({ section, addANewForm, deleteAditionalForm, nextAditionalFormKey,
 	    if (section === 'Products' && modifyMode) {
 		const productID = document.getElementsByClassName('id')[0].value
 		const initialQuantity = document.getElementsByClassName('initialStock')[0].value
-		const isCorrect = await verifySoldProducts(productID, initialQuantity)
+		const isCorrect = await verifySoldProducts(accessToken, productID, initialQuantity)
 		if (!isCorrect) {
 		    fetching.current = false
 		    return
 		}
 	    }
-            sendForms(section, resetAll, updateMainTable, userID, addCharge, removeCharge, lang);
+            sendForms(section, resetAll, updateMainTable, accessToken, addCharge, removeCharge, lang);
             fetching.current = false
         } else return alert(translations[lang].alert.operationInProcess)
         if (section === "Sales") {
@@ -291,7 +291,7 @@ const mapStateToProps = (state) => ({
     aditionalForms: state.aditionalForms,
     updateMainTable: state.updateMainTable,
     resetProductsOptions: state.resetProductsOptions,
-    userID: state.userID
+    accessToken: state.accessToken
 })
 
 const mapDispatchToProps = {

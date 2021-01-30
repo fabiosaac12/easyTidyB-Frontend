@@ -3,7 +3,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import translations from '../helpers/translations';
 import { alterInModifyMode, logIn } from '../store/workspaceActions';
-import {switchLanguage} from '../helpers/functions.js';
+import {request, switchLanguage} from '../helpers/functions.js';
 import data from '../helpers/data';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faLanguage, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
@@ -16,7 +16,8 @@ const resetData = () => {
 
 const Navigation = ({ section, resetAll, cleanMainTable }) => {
     const dispatch = useDispatch()
-    const lang = useSelector(state => state.language)
+    const lang = useSelector(state => state.language);
+    const accessToken = useSelector(state => state.accessToken)
     
     const handleClick = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -28,9 +29,14 @@ const Navigation = ({ section, resetAll, cleanMainTable }) => {
     }
 
     const logOut = () => {
+        const url = `${process.env.REACT_APP_API_URL}/logout`;
+	const init = {
+	    method: 'DELETE'
+	}
+	request(url, accessToken, init)
         dispatch(
             logIn({
-		userID: false, 
+		accessToken: false, 
 		username: false,
 		section: '',
 		hidePopUpDiv: true,

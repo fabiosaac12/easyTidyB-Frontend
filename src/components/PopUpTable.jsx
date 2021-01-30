@@ -19,11 +19,11 @@ const Tbody = ({ columns, rows, updateTable, section }) => {
 
 const Table = ({ columns, rows,
     // to update table // to update table // to update table // to update table ///
-    section, tds, groupedColumns, hidePopUpDiv, setPopUpDivContent, userID }) => {
+    section, tds, groupedColumns, hidePopUpDiv, setPopUpDivContent, accessToken }) => {
 
     // function to update this table when a change happens
     const updateTable = () => {
-        return updatePopUpTable(section, tds, groupedColumns, hidePopUpDiv, setPopUpDivContent, userID)
+        return updatePopUpTable(section, tds, groupedColumns, hidePopUpDiv, setPopUpDivContent, accessToken)
     }
 
     return <div className='row'>
@@ -40,19 +40,19 @@ const Table = ({ columns, rows,
 
 const mountTable = (elements, section, hidePopUpDiv, setPopUpDivContent,
     // to update table /
-    tds, groupedColumns, userID) => {
+    tds, groupedColumns, accessToken) => {
     const columns = allColumns['equal'][section];
     setPopUpDivContent({
         popUpDivContent: <Table what='Table' columns={columns} rows={elements}
             // to update table // to update table // to update table // to update table // to update table // to update table /////////////
-            section={section} tds={tds} groupedColumns={groupedColumns} hidePopUpDiv={hidePopUpDiv} setPopUpDivContent={setPopUpDivContent} userID={userID} />
+            section={section} tds={tds} groupedColumns={groupedColumns} hidePopUpDiv={hidePopUpDiv} setPopUpDivContent={setPopUpDivContent} accessToken={accessToken} />
     });
     hidePopUpDiv({ hidePopUpDiv: false })
 
 }
 
 // called from Table by td's actions
-export const createPopUpTable = async (e, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge, lang) => { 
+export const createPopUpTable = async (e, section, hidePopUpDiv, setPopUpDivContent, accessToken, addCharge, removeCharge, lang) => { 
     if (document.getElementById('registerButton').innerHTML === 'Modificar') { 
 	alert(translations[lang].alert.finishModification) 
 	return 
@@ -62,13 +62,13 @@ export const createPopUpTable = async (e, section, hidePopUpDiv, setPopUpDivCont
         const tds = e.target.parentNode.getElementsByClassName('toSearch');
         const groupedColumns = allColumns['grouped'][section];
         creating = true
-        await updatePopUpTable(section, tds, groupedColumns, hidePopUpDiv, setPopUpDivContent, userID)
+        await updatePopUpTable(section, tds, groupedColumns, hidePopUpDiv, setPopUpDivContent, accessToken)
         creating = false
     }
     removeCharge()
 }
 
-const updatePopUpTable = async (section, tds, groupedColumns, hidePopUpDiv, setPopUpDivContent, userID) => {
+const updatePopUpTable = async (section, tds, groupedColumns, hidePopUpDiv, setPopUpDivContent, accessToken) => {
     let elementToSend = {};
     let i = 0;
     for (let col in groupedColumns) {
@@ -78,16 +78,15 @@ const updatePopUpTable = async (section, tds, groupedColumns, hidePopUpDiv, setP
         i++;
     }
 
-    let url = `${process.env.REACT_APP_API_URL}/${section}/equalelements/${userID}`;
+    let url = `${process.env.REACT_APP_API_URL}/${section}/equalelements`;
     let init = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(elementToSend)
     }
-    return await request(url, init)
+    return await request(url, accessToken, init)
         .then(elements => {
             mountTable(elements, section, hidePopUpDiv, setPopUpDivContent,
                 // to update table /
-                tds, groupedColumns, userID)
+                tds, groupedColumns, accessToken)
         })
 }

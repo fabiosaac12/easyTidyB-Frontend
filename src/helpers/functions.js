@@ -1,11 +1,15 @@
 import formVerification from './formVerification'
 import translations from './translations';
-import { changeLanguage } from "../store/workspaceActions.js";
+import {
+    changeLanguage
+} from "../store/workspaceActions.js";
 
 export const switchLanguage = (lang, dispatch) => {
     const newLang = document.getElementById('langButton').getAttribute("name");
     if (lang !== newLang) {
-	dispatch(changeLanguage({ language: newLang }));
+        dispatch(changeLanguage({
+            language: newLang
+        }));
     }
 };
 
@@ -21,9 +25,14 @@ export const elementToJSON = (tds, headers) => {
     return element;
 };
 
-export const request = async (url, init = { method: "GET", headers: {} }, userID=12345678) => {
-    init.headers['authorization'] = `Basic ${btoa('username'+':'+'password')}}`
-    
+export const request = async (url, accessToken, init = {
+    method: "GET"
+}) => {
+    if (!init.headers) {
+        init['headers'] = {}
+        if (init.body) init.headers['Content-Type'] = "application/json"
+    }
+    if (accessToken) init.headers['Authorization'] = `Bearer ${accessToken}`
     const response = await fetch(url, init);
     const data = await response.json();
     return data;
@@ -47,9 +56,10 @@ export const verifyFields = (section, lang) => {
         for (let i = 0; i < inputs.length; i++) {
             const input = inputs[i];
             const corrections = []
-            if (ver[0] && (input.value === '' || (key==='quantity' && input.value===0))) {
+            if (ver[0] && (input.value === '' || (key === 'quantity' && input.value === 0))) {
                 corrections.push(translations[lang].corrections.isRequired)
-            } if (ver[1] && input.value.length > ver[1]) {
+            }
+            if (ver[1] && input.value.length > ver[1]) {
                 corrections.push(translations[lang].corrections.maxLength(ver[1]))
             }
             if (corrections.length > 0) {
@@ -66,14 +76,15 @@ export const verifyOneField = (lang, section, input, p, name, value) => {
     const ver = formVerification[section][name]
     const corrections = []
     let isCorrect = true
-    if (ver[0] && (value==='')) {
-	corrections.push(translations[lang].corrections.isRequired)
-    } if(ver[1] && value.length>ver[1]) {
+    if (ver[0] && (value === '')) {
+        corrections.push(translations[lang].corrections.isRequired)
+    }
+    if (ver[1] && value.length > ver[1]) {
         corrections.push(translations[lang].corrections.maxLength(ver[1]))
     }
     if (corrections.length > 0) {
-	showFixes(p, corrections);
-	isCorrect = false
+        showFixes(p, corrections);
+        isCorrect = false
     }
     return isCorrect
 }
@@ -82,7 +93,8 @@ export const verifyUsername = (username, lang) => {
     let fixes = []
     if (username.length < 7 || username.length > 15) {
         fixes.push(translations[lang].corrections.usernameRange)
-    } if (hasSpecialCharacters(username)) {
+    }
+    if (hasSpecialCharacters(username)) {
         fixes.push(translations[lang].corrections.noSpecialChars)
     }
     return fixes
@@ -92,11 +104,14 @@ export const verifyPassword = (password, lang) => {
     let fixes = []
     if (password.length < 8 || password.length > 30) {
         fixes.push(translations[lang].corrections.passRange)
-    } if (!hasNumbers(password)) {
+    }
+    if (!hasNumbers(password)) {
         fixes.push(translations[lang].corrections.numberRequired)
-    } if (!hasLetters(password)) {
+    }
+    if (!hasLetters(password)) {
         fixes.push(translations[lang].corrections.letterRequired)
-    } if (!hasSpecialCharacters(password)) {
+    }
+    if (!hasSpecialCharacters(password)) {
         fixes.push(translations[lang].corrections.specialCharRequired)
     }
     return fixes
@@ -174,7 +189,7 @@ export const collectionToArray = (collection) => {
     return array
 }
 
-export const resetInputs = (changeSection=true) => {
+export const resetInputs = (changeSection = true) => {
     let inputs = document.getElementById('mainForm').getElementsByTagName('input')
     for (let i = 0; i < inputs.length; i++) {
         const input = inputs[i];

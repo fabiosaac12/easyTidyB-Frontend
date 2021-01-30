@@ -62,11 +62,11 @@ const generateTDToModifyMode = (column, section, row, col, lang) => {
     return td
 }
 
-const generateButtonsToModifyMode = (setModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, hidePopUpDiv, setModifyModeFunctions, updateMainTable, resetProductsOptions) => {
+const generateButtonsToModifyMode = (setModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, hidePopUpDiv, setModifyModeFunctions, updateMainTable, resetProductsOptions, accessToken) => {
     const handleModifyClick = async ({ target }) => {
 	const tbody = target.parentNode.parentNode.parentNode
         const form = target.parentNode.parentNode
-        const result = await modifyFromTable(section, updateTable, addCharge, removeCharge, form)
+        const result = await modifyFromTable(section, updateTable, addCharge, removeCharge, form, accessToken)
 	if (!result) return
 	const dataLength = tbody.getElementsByTagName('td').length;
 	if (dataLength <= 1) {
@@ -100,6 +100,7 @@ const Tr = ({ columns, row, updateTable, section, i }) => {
     const lang = useSelector(state => state.language)
     const mounted = useRef(false)
     const dispatch = useDispatch()
+    const accessToken = useSelector(state => state.accessToken)
     const consultSelectsData = useSelector(state => state.consultSelectsData)
     const inModifyMode = useSelector(state => state.inModifyMode)
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
@@ -164,7 +165,7 @@ const Tr = ({ columns, row, updateTable, section, i }) => {
                 tds.push(td)
             } catch { }
         }
-        const {submitButton, cancelButton} = generateButtonsToModifyMode(verifyAndSetModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, () => dispatch(hidePopUpDiv({ hidePopUpDiv: true })), setModifyModeFunctions, updateMainTable, resetProductsOptions)
+        const {submitButton, cancelButton} = generateButtonsToModifyMode(verifyAndSetModifyMode, alterInModifyMode, section, updateTable, addCharge, removeCharge, () => dispatch(hidePopUpDiv({ hidePopUpDiv: true })), setModifyModeFunctions, updateMainTable, resetProductsOptions, accessToken)
         const actionButtons = <td key="actions" className="text-center">{submitButton}{cancelButton}</td>
         tds.push(actionButtons)
     } else {

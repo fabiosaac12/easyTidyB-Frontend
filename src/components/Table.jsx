@@ -41,14 +41,14 @@ const Tbody = ({columns, rows,
     // to actions buttons //
     updateTable, dataType,
     // to the tds action // to the tds action ////////// 
-    section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge}) => {
+    section, hidePopUpDiv, setPopUpDivContent, accessToken, addCharge, removeCharge}) => {
     const lang = useSelector(state => state.language)
     const [trs, setTrs] = useState([])
     const setModifyModeFunctions = useSelector(state => state.setModifyModeFunctions)
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (rows.message || !userID) {
+        if (rows.message || !accessToken) {
             setTrs([])
             return
         }
@@ -59,7 +59,7 @@ const Tbody = ({columns, rows,
 	const handleTDOnClick = (e) => {
 	    resetAllModifyModes(setModifyModeFunctions)
 	    dispatch(alterInModifyMode(0))
-	    createPopUpTable(e, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge, lang)
+	    createPopUpTable(e, section, hidePopUpDiv, setPopUpDivContent, accessToken, addCharge, removeCharge, lang)
 	}
 	let trs
 	if (["Products", "Sales"].includes(section)) {
@@ -85,7 +85,7 @@ const Tbody = ({columns, rows,
 	    trs = rows.map((row, i) => <Tr columns={columns} key={i} i={i} row={row} updateTable={updateTable} section={section} />)
 	}
 	setTrs(trs)
-    }, [columns, rows, dataType, updateTable, section, hidePopUpDiv, setPopUpDivContent, userID, addCharge, removeCharge, dispatch, setModifyModeFunctions, lang])
+    }, [columns, rows, dataType, updateTable, section, hidePopUpDiv, setPopUpDivContent, accessToken, addCharge, removeCharge, dispatch, setModifyModeFunctions, lang])
     
     const tbodyContent = trs.length !== 0 ? trs : <tr><td className="text-center">{rows.message ? rows.message : translations[lang].table[`no${section}`]}</td></tr>
     
@@ -95,7 +95,7 @@ const Tbody = ({columns, rows,
 }
 
 
-const Table = ({ section, setUpdateMainTable, userID, setCleanMainTable, addCharge, removeCharge,
+const Table = ({ section, setUpdateMainTable, accessToken, setCleanMainTable, addCharge, removeCharge,
     // to the tds action ///////////
     hidePopUpDiv, setPopUpDivContent }) => {
 
@@ -106,12 +106,12 @@ const Table = ({ section, setUpdateMainTable, userID, setCleanMainTable, addChar
     
     const updateTable = useCallback(async (section, dataType='grouped', onThis=false) => {
         addCharge()
-        let url = dataType === 'detailed' ? `${process.env.REACT_APP_API_URL}/${section}/${userID}` : `${process.env.REACT_APP_API_URL}/${section}/grouped/${userID}`;
-        let rows = await request(url);
+        let url = dataType === 'detailed' ? `${process.env.REACT_APP_API_URL}/${section}` : `${process.env.REACT_APP_API_URL}/${section}/grouped`;
+        let rows = await request(url, accessToken);
         removeCharge()
         if (!onThis) setRows(rows) 
         else return rows
-    }, [userID, addCharge, removeCharge])
+    }, [accessToken, addCharge, removeCharge])
     
     useEffect(() => {
         let mounted = true;
@@ -134,7 +134,7 @@ const Table = ({ section, setUpdateMainTable, userID, setCleanMainTable, addChar
                 <div className="table-responsive">
                     <table className="table table-striped table-bordered table-hover table-sm">
                         <Thead columns={columns}/>
-                        <Tbody columns={columns} rows={rows} userID={userID}
+                        <Tbody columns={columns} rows={rows} accessToken={accessToken}
                         // to actions buttons // to actions buttons /
                         updateTable={updateTable} dataType={dataType}
                         // to the tds action // to the tds action // to the tds action // to the tds action //
@@ -148,7 +148,7 @@ const Table = ({ section, setUpdateMainTable, userID, setCleanMainTable, addChar
 
 const mapStateToProps = (state) => ({
     section: state.section,
-    userID: state.userID
+    accessToken: state.accessToken
 })
 
 const mapDispatchToProps = {

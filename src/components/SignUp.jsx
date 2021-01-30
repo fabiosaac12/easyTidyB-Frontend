@@ -9,7 +9,7 @@ import translations from '../helpers/translations';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faLanguage } from '@fortawesome/free-solid-svg-icons'
 
-const SignUp = ({ userID, logIn }) => {
+const SignUp = ({ accessToken, logIn }) => {
     const lang = useSelector(state => state.language)
     const fetching = useRef(false)
     const dispatch = useDispatch();
@@ -41,20 +41,17 @@ const SignUp = ({ userID, logIn }) => {
         
         document.getElementById('chargingDiv').style.display = 'block'
         
-        const user = {
-            username,
-            password: sha256(password)
-        }
         const init = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user)
-        }
+            method: "POST",
+            headers: {
+                "Authorization": `Basic ${btoa(username + ":" + sha256(password))}`,
+            },
+        };
         const url = `${process.env.REACT_APP_API_URL}/signup`;
         let response
         if (!fetching.current) {
             fetching.current = true
-            response = await request(url, init)
+            response = await request(url, false, init)
             fetching.current = false
         } else return alert(translations[lang].alert.operationInProcess)
 
@@ -62,8 +59,8 @@ const SignUp = ({ userID, logIn }) => {
         if (response['message'] === 'Database error') {
             showFixes(paragraphs['username'], [response['message']])
             document.getElementById('chargingDiv').style.display = 'none'
-        } else if (response['id']) {
-            logIn({ username: response.username, userID: response.id })
+        } else if (response['accessToken']) {
+            logIn({ username: response.username, accessToken: response.accessToken })
         } else {
             if (response.message === 'Repeated data') {
 		showFixes(paragraphs['username'], [translations[lang].corrections.usernameNotAvailable])
@@ -71,7 +68,7 @@ const SignUp = ({ userID, logIn }) => {
             document.getElementById('chargingDiv').style.display = 'none'
         }
     }
-    if (userID) {
+    if (accessToken) {
         return <Redirect to={{ pathname: "/" }} />
     } else {
         return <div className="container">
@@ -114,7 +111,7 @@ const SignUp = ({ userID, logIn }) => {
 }
 
 const mapStateToProps = (state) => ({
-    userID: state.userID
+    accessToken: state.accessToken
 })
 
 const mapDispatchToProps = {
