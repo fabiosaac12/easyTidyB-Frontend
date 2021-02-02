@@ -17,7 +17,7 @@ const formVerification = {
     },
     Products: {
         orderID: [true, false],
-        name: [true, 20],
+        name: [true, 30],
         char1: [false, 15],
         char2: [false, 15],
         initialStock: [true, 6],

@@ -15,7 +15,7 @@ const addElement = async (section, data, accessToken) => {
 }
 
 const modifyElement = async (section, data, accessToken) => {
-    console.log(section, data, accessToken)
+
     const url = `${process.env.REACT_APP_API_URL}/${section}`;
     const init = {
         method: 'PUT',

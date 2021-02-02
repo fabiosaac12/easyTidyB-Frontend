@@ -51,7 +51,7 @@ const doConsultSelectsData = async (mainForm, consultSelectsData) => {
                 await consult()
             }
         } catch (e) {
-            console.log(e)
+
         }
     }
 }

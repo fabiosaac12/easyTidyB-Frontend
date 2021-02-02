@@ -28,7 +28,7 @@ export const elementToJSON = (tds, headers) => {
 export const request = async (url, accessToken, init = {
     method: "GET"
 }) => {
-     console.log(accessToken)
+
     if (!init.headers) {
         init['headers'] = {}
         if (init.body) init.headers['Content-Type'] = "application/json"

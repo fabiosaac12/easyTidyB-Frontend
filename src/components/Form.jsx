@@ -186,7 +186,7 @@ const consultSelectsOptions = async (consultSelectsData) => {
             }
         }
     } catch (e) {
-        console.log(e);
+
     }
 }
 

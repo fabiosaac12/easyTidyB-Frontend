@@ -71,7 +71,7 @@ const Tbody = ({columns, rows,
 		        tds.push(<td className={`text-center dataTD toSearch ${columns[col][1] ? 'd-none' : ''}`} name={`${columns[col][0]}`} key={`${i}${col}`} onClick={section === 'Sales' || section === 'Products' ? handleTDOnClick : null}>{column==='type' ? translations[lang].words[row[column]] : row[column]}</td>)
 		    }
                 } catch (e) {
-                    console.log(e)
+
                 }
                 
                 const actionButtons = <ActionsButtons dataType={dataType} updateTable={updateTable} key='actions'/>

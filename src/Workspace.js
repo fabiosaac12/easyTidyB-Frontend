@@ -15,8 +15,7 @@ const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelec
     const lang = useSelector(state => state.language)
 
     try {
-        document.getElementById("formTitle").innerHTML =
-            translations[lang].form[`add${section}`];
+        document.getElementById("formTitle").innerHTML = translations[lang].form[`add${section}`];
     } catch {}
 
     useEffect(() => {
@@ -52,17 +51,13 @@ const Workspace = ({ setResetAllFunction, resetAditionalForms, resetConsultSelec
                             });
                     }
                 } catch (e) {
-                    console.log(e);
+
                 }
             },
         });
     }, [ setResetAllFunction, resetAditionalForms, resetConsultSelectsData, doTableSearch, hidePopUpDiv, section, changeSection, lang, setPopUpDivContent ]);
     if (accessToken) {
-        if (
-            ["Sales", "Clients", "Products", "Orders", "Suppliers"].includes(
-                section
-            )
-        ) {
+        if (["Sales", "Clients", "Products", "Orders", "Suppliers"].includes(section)) {
             return (
                 <div>
                     <div id="bodyDiv" className="container-md">
