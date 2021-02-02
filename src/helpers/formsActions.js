@@ -15,6 +15,7 @@ const addElement = async (section, data, accessToken) => {
 }
 
 const modifyElement = async (section, data, accessToken) => {
+    console.log(section, data, accessToken)
     const url = `${process.env.REACT_APP_API_URL}/${section}`;
     const init = {
         method: 'PUT',
@@ -38,7 +39,7 @@ export const modifyFromTable = async (section, updateTable, addCharge, removeCha
 	if (!verification) return false
     }
     addCharge()
-    await modifyElement(section, formValues)
+    await modifyElement(section, formValues, accessToken)
     if (["Sales", "Products"].includes(section)) {
 	await updateTable()
     } else {
@@ -79,7 +80,7 @@ const sendForms = async (section, resetAll, updateMainTable, accessToken, addCha
         formsValues.push(formValues);
     }
 
-    const modifyMode = document.getElementById('registerButton').innerHTML === 'Modificar';
+    const modifyMode = document.getElementById('registerButton').innerHTML === translations[lang].words.modify;
     let response
     addCharge()
     if (modifyMode) {
